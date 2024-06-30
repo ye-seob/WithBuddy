@@ -19,7 +19,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="w-full px-4 py-2 mb-4 border border-[#E0E0E0] bg-[#FFFFFF] rounded-xl m-3"
+      className="w-[350px] px-4 py-2 mb-4 border border-[#E0E0E0] bg-[#FFFFFF] rounded-xl m-3"
     />
   );
 };
