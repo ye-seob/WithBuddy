@@ -1,12 +1,9 @@
 import express, { Application, Request, Response } from "express";
+const userController = require("../controllers/userController");
 
 const router: Application = express();
 
-router.post("/api/login", (req: Request, res: Response) => {
-  res.send("login post요청입니다");
-});
-router.post("/api/signup", (req: Request, res: Response) => {
-  res.send("signup post요청입니다");
-});
+router.post("/api/login", userController.login);
+router.post("/api/signup", userController.signup);
 
 export default router;

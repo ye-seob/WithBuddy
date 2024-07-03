@@ -2,7 +2,7 @@ import React from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { useSignupStore } from "../stores/signupStore";
-
+import axios from "axios";
 const Signup: React.FC = () => {
   const {
     name,
@@ -52,7 +52,23 @@ const Signup: React.FC = () => {
       alert("인증번호를 입력해주세요.");
       return;
     }
-    alert(`${pin} ${email} ${pinConfirm} ${name} ${authCode}`);
+    handleSignup();
+  };
+
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/signup", {
+        name,
+        studentId,
+        pin,
+        pinConfirm,
+        email,
+        authCode,
+      });
+      alert(`${response.data} `);
+    } catch (error) {
+      console.error("signup failed:", error);
+    }
   };
 
   return (

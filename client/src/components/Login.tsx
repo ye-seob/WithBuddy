@@ -1,19 +1,29 @@
 import Button from "./Button";
 import Input from "./Input";
 import { useLoginStore } from "../stores/loginStore";
+import axios from "axios";
 
 const Login = () => {
-  const { id, pin, setId, setPin } = useLoginStore();
-  const handleLogin = () => {
-    alert(`ID: ${id} 및 PIN: ${pin}로 로그인 중`);
+  const { studentId, pin, setStudentId, setPin } = useLoginStore();
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/login", {
+        studentId,
+        pin,
+      });
+      console.log(`${response.data} `);
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
+
   return (
     <>
       <Input
         type="text"
         placeholder="학번 Ex) 2023216049"
-        value={id}
-        onChange={(e) => setId(e.target.value)}
+        value={studentId}
+        onChange={(e) => setStudentId(e.target.value)}
       />
       <Input
         type="password"
@@ -22,7 +32,6 @@ const Login = () => {
         onChange={(e) => setPin(e.target.value)}
       />
       <Button text="로그인" onClick={handleLogin} />
-
       <p className="text-center text-[#C8B7B7] mt-10">
         Pin번호가 기억나지 않으신가요?
       </p>

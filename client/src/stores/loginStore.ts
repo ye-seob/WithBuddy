@@ -1,15 +1,15 @@
 import create from "zustand";
 
 interface LoginState {
-  id: string;
+  studentId: string;
   pin: string;
-  setId: (id: string) => void;
+  setStudentId: (studentId: string) => void;
   setPin: (pin: string) => void;
 }
 
 export const useLoginStore = create<LoginState>((set) => ({
-  id: "",
+  studentId: "",
   pin: "",
-  setId: (id) => set({ id }),
+  setStudentId: (studentId) => set({ studentId }),
   setPin: (pin) => set({ pin }),
 }));
