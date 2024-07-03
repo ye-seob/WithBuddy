@@ -2,16 +2,19 @@ import Button from "./Button";
 import Input from "./Input";
 import { useLoginStore } from "../stores/loginStore";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const { studentId, pin, setStudentId, setPin } = useLoginStore();
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       const response = await axios.post("http://localhost:3000/api/login", {
         studentId,
         pin,
       });
-      console.log(`${response.data} `);
+      if (response.status === 200) {
+        navigate("/match");
+      }
     } catch (error) {
       console.error("Login failed:", error);
     }

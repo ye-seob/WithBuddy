@@ -14,7 +14,7 @@ const MainPage: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#ECEBDF]">
       <Header />
       <div className="bg-[#F7F6F0] flex flex-col items-center p-0 rounded-2xl shadow-md w-[400px]">
-        <div className="w-full flex bg-[#C6D1AE] rounded-t-2xl overflow-hidden">
+        <div className="w-full h-14 flex bg-[#C6D1AE] rounded-t-2xl overflow-hidden">
           <div
             onClick={() => handleTabClick("login")}
             className={`flex-1 text-center cursor-pointer py-4 ${
