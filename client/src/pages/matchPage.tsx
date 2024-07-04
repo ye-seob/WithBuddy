@@ -9,22 +9,25 @@ import { useLoginStore } from "../stores/loginStore";
 const MatchPage: React.FC = () => {
   const { commonNumber, setCommonNumber, buddyName, setBuddyName } =
     useMainStore();
+
   const { name, studentId } = useLoginStore();
-  console.log(studentId);
+
   useEffect(() => {
     const loadBuddy = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/match", {
           params: { studentId },
         });
-
-        if (response.data.length > 0) {
-          setCommonNumber(response.data[0].commonNumber);
+        console.log(response.data);
+        setCommonNumber(response.data[0].commonNumber);
+        if (response.data.length > 1) {
           if (studentId === "2023" + commonNumber)
             setBuddyName(response.data[1].name);
           else {
             setBuddyName(response.data[0].name);
           }
+        } else {
+          setBuddyName("등록되지 않았습니다");
         }
       } catch (error) {
         console.error("Buddy 불러오기 실패:", error);

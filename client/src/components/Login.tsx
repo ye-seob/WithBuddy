@@ -3,8 +3,10 @@ import Input from "./Input";
 import { useLoginStore } from "../stores/loginStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useMainStore } from "../stores/mainStore";
 const Login = () => {
   const { studentId, pin, setStudentId, setPin, setName } = useLoginStore();
+  const { setCommonNumber, setBuddyName } = useMainStore();
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
@@ -15,6 +17,8 @@ const Login = () => {
       if (response.status === 200) {
         const { name } = response.data;
         setName(name);
+        setCommonNumber("");
+        setBuddyName("");
         navigate("/match");
       }
     } catch (error) {
