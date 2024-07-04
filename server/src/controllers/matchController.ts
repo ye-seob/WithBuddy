@@ -11,8 +11,18 @@ const match = async (req: Request, res: Response) => {
   const commonNumber = studentId.substring(4, 10);
 
   const buddy = await collection
-    .find({ commonNumber }, { name: 1, studentId: 1, commonNumber: 1 })
+    .find(
+      { commonNumber },
+      { name: 1, studentId: 1, commonNumber: 1, matchedAt: 1 }
+    )
     .sort({ studentId: 1 });
+
+  if (buddy.length > 0) {
+    await collection.updateMany(
+      { commonNumber },
+      { $set: { matchedAt: new Date() } }
+    );
+  }
 
   res.status(200).send(buddy);
 };

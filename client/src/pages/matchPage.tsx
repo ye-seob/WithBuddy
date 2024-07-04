@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Profile from "../components/Profile";
 import Sidebar from "../components/Sidebar";
@@ -9,8 +9,8 @@ import { useLoginStore } from "../stores/loginStore";
 const MatchPage: React.FC = () => {
   const { commonNumber, setCommonNumber, buddyName, setBuddyName } =
     useMainStore();
-
   const { name, studentId } = useLoginStore();
+  const [matchedAt, setMatchedAt] = useState("");
 
   useEffect(() => {
     const loadBuddy = async () => {
@@ -20,6 +20,10 @@ const MatchPage: React.FC = () => {
         });
         console.log(response.data);
         setCommonNumber(response.data[0].commonNumber);
+        setMatchedAt(
+          "since  " + new Date(response.data[0].matchedAt).toLocaleDateString()
+        );
+
         if (response.data.length > 1) {
           if (studentId === "2023" + commonNumber)
             setBuddyName(response.data[1].name);
@@ -27,6 +31,7 @@ const MatchPage: React.FC = () => {
             setBuddyName(response.data[0].name);
           }
         } else {
+          setMatchedAt(" 등록되지 않았습니다");
           setBuddyName("등록되지 않았습니다");
         }
       } catch (error) {
@@ -35,7 +40,7 @@ const MatchPage: React.FC = () => {
     };
 
     loadBuddy();
-  }, [studentId, setCommonNumber]);
+  }, [studentId, setCommonNumber, commonNumber, setBuddyName]);
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#ECEBDF]">
       <Header />
@@ -62,7 +67,7 @@ const MatchPage: React.FC = () => {
             </div>
           </div>
           <div className="text-center flex text-[#C6D1AE] font-bold -mt-10 mb-10">
-            since 2023-07-03
+            {matchedAt}
           </div>
         </div>
       </div>

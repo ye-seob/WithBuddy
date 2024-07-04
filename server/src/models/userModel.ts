@@ -21,11 +21,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // matchedAt: {
-  // type: Date,
-  // default: false,
-  // required: true,
-  //  },
+  matchedAt: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
 });
 
 const collection = mongoose.model("users", userSchema);
