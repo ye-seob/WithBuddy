@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  commonNumber: {
+    type: String,
+    required: true,
+  },
 });
 
 const collection = mongoose.model("users", userSchema);

@@ -7,12 +7,13 @@ const login = async (req: Request, res: Response) => {
   try {
     const { studentId, pin } = req.body;
     const user = await collection.findOne({ studentId });
+
     if (!user) return res.status(404).send("등록되지 않은 학번입니다.");
 
     const passwordMatching = await bcrypt.compare(pin, user.pin);
 
     if (passwordMatching) {
-      res.status(200).send("로그인 성공");
+      res.status(200).send(user);
     } else {
       res.status(401).send("비밀번호가 일치하지 않습니다.");
     }
@@ -37,12 +38,14 @@ async function signup(req: Request, res: Response) {
     }
 
     const hashingPassword = await bcrypt.hash(pin, 5);
+    const commonNumber = studentId.substring(4, 10);
 
     await collection.create({
       name,
       studentId,
       pin: hashingPassword,
       email,
+      commonNumber,
     });
     res.status(200).send("회원가입 성공했습니다.");
   } catch (error) {

@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import user from "./routes/user";
+import match from "./routes/match";
 import connectDB from "./db";
 const cors = require("cors");
 
@@ -18,11 +19,8 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", function (req: Request, res: Response) {
-  res.send("루트 페이지입니다");
-});
-
 app.use(user);
+app.use(match);
 
 app.listen(port, function () {
   console.log(` ${port}포트 실행 중`);

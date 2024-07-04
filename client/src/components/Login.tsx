@@ -4,7 +4,7 @@ import { useLoginStore } from "../stores/loginStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-  const { studentId, pin, setStudentId, setPin } = useLoginStore();
+  const { studentId, pin, setStudentId, setPin, setName } = useLoginStore();
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
@@ -13,6 +13,8 @@ const Login = () => {
         pin,
       });
       if (response.status === 200) {
+        const { name } = response.data;
+        setName(name);
         navigate("/match");
       }
     } catch (error) {
@@ -35,7 +37,7 @@ const Login = () => {
         onChange={(e) => setPin(e.target.value)}
       />
       <Button text="로그인" onClick={handleLogin} />
-      <p className="text-center text-[#C8B7B7] mt-10">
+      <p className="text-center text-[#C8B7B7] mt-10 ">
         Pin번호가 기억나지 않으신가요?
       </p>
     </>
