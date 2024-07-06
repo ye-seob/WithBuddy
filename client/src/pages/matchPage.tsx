@@ -41,16 +41,17 @@ const MatchPage: React.FC = () => {
 
     loadBuddy();
   }, [studentId, setCommonNumber, commonNumber, setBuddyName]);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#ECEBDF]">
       <Header />
       <div className="flex justify-center w-[1000px]">
         <Sidebar />
-        <div className="bg-[#F7F6F0] flex flex-col items-center rounded-2xl shadow-md w-[400px] mr-28">
+        <div className="bg-[#F7F6F0] flex flex-col items-center rounded-2xl shadow-md w-[400px] mr-28 min-h-[500px]">
           <div className="w-full h-14 bg-[#C6D1AE] rounded-t-2xl flex items-center justify-center">
             <span className="text-white font-bold">{commonNumber}</span>
           </div>
-          <div className="flex w-[400px] h-[400px] p-10 justify-between">
+          <div className="flex w-full h-[400px] p-10 justify-between">
             <div className="flex flex-col items-center">
               <span className="text-[#C6D1AE] font-bold mb-4">2023</span>
               <Profile />

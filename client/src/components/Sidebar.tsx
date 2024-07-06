@@ -7,7 +7,7 @@ const Sidebar: React.FC = () => {
       <Link to="/match">
         <CiHome className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out" />
       </Link>
-      <Link to="/">
+      <Link to="/edit">
         <CiEdit className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out" />
       </Link>
       <Link to="/">
