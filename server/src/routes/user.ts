@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 const userController = require("../controllers/userController");
-const mail = require("../mail");
+const mail = require("../utils/sendMail");
 
 const router: Application = express();
 

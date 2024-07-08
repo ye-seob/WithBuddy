@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import axios from "axios";
 import { useMainStore } from "../stores/mainStore";
 import { useLoginStore } from "../stores/loginStore";
+import styles from "../public/css/MatchPage.module.css";
 
 const MatchPage: React.FC = () => {
   const { commonNumber, setCommonNumber, buddyName, setBuddyName } =
@@ -18,17 +19,24 @@ const MatchPage: React.FC = () => {
         const response = await axios.get("http://localhost:3000/api/match", {
           params: { studentId },
         });
-        console.log(response.data);
-        setCommonNumber(response.data[0].commonNumber);
-        setMatchedAt(
-          "since  " + new Date(response.data[0].matchedAt).toLocaleDateString()
-        );
+        const data = response.data;
+        console.log(data);
 
-        if (response.data.length > 1) {
-          if (studentId === "2023" + commonNumber)
-            setBuddyName(response.data[1].name);
-          else {
-            setBuddyName(response.data[0].name);
+        if (data.length > 0) {
+          setCommonNumber(data[0].commonNumber);
+          setMatchedAt(
+            "since " + new Date(data[0].matchedAt).toLocaleDateString()
+          );
+
+          if (data.length > 1) {
+            setBuddyName(
+              studentId === "2023" + data[0].commonNumber
+                ? data[1].name
+                : data[0].name
+            );
+          } else {
+            setMatchedAt(" 등록되지 않았습니다");
+            setBuddyName("등록되지 않았습니다");
           }
         } else {
           setMatchedAt(" 등록되지 않았습니다");
@@ -36,40 +44,42 @@ const MatchPage: React.FC = () => {
         }
       } catch (error) {
         console.error("Buddy 불러오기 실패:", error);
+        setMatchedAt("오류 발생");
+        setBuddyName("오류 발생");
       }
     };
 
     loadBuddy();
-  }, [studentId, setCommonNumber, commonNumber, setBuddyName]);
+  }, [studentId, setCommonNumber, setBuddyName]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#ECEBDF]">
+    <div className={styles.matchpage_container}>
       <Header />
-      <div className="flex justify-center w-[1000px]">
+      <div className={styles.content_wrapper}>
         <Sidebar />
-        <div className="bg-[#F7F6F0] flex flex-col items-center rounded-2xl shadow-md w-[400px] mr-28 min-h-[500px]">
-          <div className="w-full h-14 bg-[#C6D1AE] rounded-t-2xl flex items-center justify-center">
-            <span className="text-white font-bold">{commonNumber}</span>
+        <div className={styles.main_content}>
+          {/* 초록 ,학번 부분  */}
+          <div className={styles.header_section}>
+            <span className={styles.commonNumber}>{commonNumber}</span>
           </div>
-          <div className="flex w-full h-[400px] p-10 justify-between">
-            <div className="flex flex-col items-center">
-              <span className="text-[#C6D1AE] font-bold mb-4">2023</span>
+          {/* 프로필 섹션 */}
+          <div className={styles.profiles_section}>
+            <div className={styles.profile}>
+              <span className={styles.year_label}>2023</span>
               <Profile />
-              <span className="text-[#C6D1AE] font-bold mt-4">
+              <span className={styles.name_label}>
                 {studentId === "2023" + commonNumber ? name : buddyName}
               </span>
             </div>
-            <div className="flex flex-col items-center">
-              <span className="text-[#C6D1AE] font-bold mb-4">2024</span>
+            <div className={styles.profile}>
+              <span className={styles.year_label}>2024</span>
               <Profile />
-              <span className="text-[#C6D1AE] font-bold mt-4">
+              <span className={styles.name_label}>
                 {studentId === "2023" + commonNumber ? buddyName : name}
               </span>
             </div>
           </div>
-          <div className="text-center flex text-[#C6D1AE] font-bold -mt-10 mb-10">
-            {matchedAt}
-          </div>
+          <div className={styles.matched_label}>{matchedAt}</div>
         </div>
       </div>
     </div>

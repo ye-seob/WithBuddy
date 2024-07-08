@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../public/css/Input.module.css";
 
 interface InputProps {
   type: string;
@@ -19,7 +20,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="w-[350px] px-4 py-2 mb-4 border border-[#E0E0E0] bg-[#FFFFFF] rounded-xl m-3"
+      className={styles.input}
     />
   );
 };

@@ -4,10 +4,13 @@ import { useLoginStore } from "../stores/loginStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMainStore } from "../stores/mainStore";
-const Login = () => {
+import styles from "../public/css/Login.module.css";
+
+const Login: React.FC = () => {
   const { studentId, pin, setStudentId, setPin, setName } = useLoginStore();
   const { setCommonNumber, setBuddyName } = useMainStore();
   const navigate = useNavigate();
+
   const handleLogin = async () => {
     try {
       const response = await axios.post("http://localhost:3000/api/login", {
@@ -41,9 +44,8 @@ const Login = () => {
         onChange={(e) => setPin(e.target.value)}
       />
       <Button text="로그인" onClick={handleLogin} />
-      <p className="text-center text-[#C8B7B7] mt-10 ">
-        Pin번호가 기억나지 않으신가요?
-      </p>
+      <p className={styles.login_container}>Pin번호가 기억나지 않으신가요?</p>
+      {/* 나중에 클래스네임 변경 해야함 */}
     </>
   );
 };
