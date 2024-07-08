@@ -3,7 +3,20 @@ import Input from "./Input";
 import Button from "./Button";
 import { useSignupStore } from "../stores/signupStore";
 import axios from "axios";
+const sendMail = async (email: string) => {
+  try {
+    const response = await axios.post("http://localhost:3000/api/send-mail", {
+      email,
+    });
+    alert(response.data);
+  } catch (error) {
+    console.error("메일 전송 실패:", error);
+    alert("메일 전송에 실패했습니다. 다시 시도해 주세요.");
+  }
+};
 const Signup: React.FC = () => {
+  
+
   const {
     name,
     studentId,
@@ -36,12 +49,12 @@ const Signup: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    if (pin !== pinConfirm) {
-      alert("PIN 번호가 일치하지 않습니다.");
-      return;
-    }
     if (!/^[0-9]{4}$/.test(pin)) {
       alert("PIN 번호는 4자리 숫자여야 합니다.");
+      return;
+    }
+    if (pin !== pinConfirm) {
+      alert("PIN 번호가 일치하지 않습니다.");
       return;
     }
     if (!/^[\w-.]+@skuniv\.ac\.kr$/.test(email)) {
@@ -112,6 +125,7 @@ const Signup: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <Button text="전송" onClick={() => sendMail(email)} />
           <Input
             type="text"
             placeholder="인증번호"

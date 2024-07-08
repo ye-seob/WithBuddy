@@ -9,8 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/nodemailer": "^6.4.15",
     "@types/react-icons": "^3.0.0",
     "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
+    "nodemailer": "^6.9.14",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.24.1"
   }
