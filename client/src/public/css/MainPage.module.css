@@ -1,3 +1,4 @@
+/* MainPage.module.css */
 .main_container {
   min-height: 100vh;
   display: flex;
@@ -33,12 +34,14 @@
   text-align: center;
   cursor: pointer;
   padding: 16px 0;
-  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  color: #4a4a4a;
 }
 
 .tab_item.active {
-  border-bottom: 4px solid #c6d1ae;
-  background-color: #c6d1ae;
+  border-bottom: 4px solid #8da55a; /* 라이트 블루 색상 */
+  font-weight: bold;
 }
 
 .form_container {

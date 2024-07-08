@@ -23,26 +23,7 @@ const EditPage: React.FC = () => {
                 placeholder={test}
               />
             </div>
-            <div className={styles.form_group}>
-              <input
-                type="text"
-                id="studentId"
-                name="studentId"
-                className={`${styles.input} ${styles.input_readonly}`}
-                readOnly
-                placeholder="학번"
-              />
-            </div>
-            <div className={styles.form_group}>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className={`${styles.input} ${styles.input_readonly}`}
-                readOnly
-                placeholder="ys031027@skuniv.ac.kr"
-              />
-            </div>
+
             <div className={styles.form_group}>
               <input
                 type="text"

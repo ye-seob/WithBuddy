@@ -23,7 +23,7 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 400px;
   margin-right: 28px;
-  min-height: 500px;
+  height: 500px;
 }
 
 .header_section {
@@ -56,16 +56,11 @@
   align-items: center;
 }
 
-.year_label {
-  color: #c6d1ae;
+.label {
+  color: #a9bd7d;
   font-weight: bold;
-  margin-bottom: 16px;
-}
-
-.name_label {
-  color: #c6d1ae;
-  font-weight: bold;
-  margin-top: 16px;
+  font-size: 20px;
+  margin-top: 10px;
 }
 
 .matched_label {

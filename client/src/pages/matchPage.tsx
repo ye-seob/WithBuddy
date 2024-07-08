@@ -62,21 +62,20 @@ const MatchPage: React.FC = () => {
           <div className={styles.header_section}>
             <span className={styles.commonNumber}>{commonNumber}</span>
           </div>
+          <span className={styles.label}>💻 소프트웨어학과</span>
           {/* 프로필 섹션 */}
           <div className={styles.profiles_section}>
             <div className={styles.profile}>
-              <span className={styles.year_label}>2023</span>
-              <Profile />
-              <span className={styles.name_label}>
-                {studentId === "2023" + commonNumber ? name : buddyName}
-              </span>
+              <Profile
+                num="2023"
+                name={studentId === "2023" + commonNumber ? name : buddyName}
+              />
             </div>
             <div className={styles.profile}>
-              <span className={styles.year_label}>2024</span>
-              <Profile />
-              <span className={styles.name_label}>
-                {studentId === "2023" + commonNumber ? buddyName : name}
-              </span>
+              <Profile
+                num="2024"
+                name={studentId === "2023" + commonNumber ? buddyName : name}
+              />
             </div>
           </div>
           <div className={styles.matched_label}>{matchedAt}</div>
