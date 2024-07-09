@@ -5,6 +5,7 @@ interface InputProps {
   type: string;
   placeholder: string;
   value: string;
+  readOnly?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -12,6 +13,7 @@ const Input: React.FC<InputProps> = ({
   type,
   placeholder,
   value,
+  readOnly = false,
   onChange,
 }) => {
   return (
@@ -19,6 +21,7 @@ const Input: React.FC<InputProps> = ({
       type={type}
       placeholder={placeholder}
       value={value}
+      readOnly={readOnly}
       onChange={onChange}
       className={styles.input}
     />

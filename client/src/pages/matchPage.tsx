@@ -62,7 +62,10 @@ const MatchPage: React.FC = () => {
           <div className={styles.header_section}>
             <span className={styles.commonNumber}>{commonNumber}</span>
           </div>
-          <span className={styles.label}>💻 소프트웨어학과</span>
+          <div className={styles.major}>
+            <span className={styles.label}>💻 소프트웨어학과</span>
+          </div>
+
           {/* 프로필 섹션 */}
           <div className={styles.profiles_section}>
             <div className={styles.profile}>

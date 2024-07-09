@@ -1,3 +1,4 @@
+/* MatchPage.module.css */
 .matchpage_container {
   min-height: 100vh;
   display: flex;
@@ -14,6 +15,10 @@
   margin-right: 100px;
 }
 
+.major {
+  margin-top: 20px;
+}
+
 .main_content {
   background-color: #f7f6f0;
   display: flex;
@@ -22,13 +27,13 @@
   border-radius: 16px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 400px;
+  height: 450px;
   margin-right: 28px;
-  height: 500px;
 }
 
 .header_section {
   width: 100%;
-  height: 56px;
+  min-height: 50px;
   background-color: #c6d1ae;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -45,7 +50,7 @@
 .profiles_section {
   display: flex;
   width: 100%;
-  height: 400px;
+  height: 330px;
   padding: 40px;
   justify-content: space-between;
 }
