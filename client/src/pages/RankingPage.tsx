@@ -17,7 +17,7 @@ const RankingPage = () => {
   const loadRanking = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/ranking");
-      setRankingData(response.data); // 가져온 데이터를 상태로 설정합니다.
+      setRankingData(response.data);
     } catch (error) {
       console.error("불러오기 실패:", error);
     }
@@ -36,15 +36,24 @@ const RankingPage = () => {
           <div className={styles.header_section}>
             <span className={styles.text}>학과별 가입자 수</span>
           </div>
-          <div>
+          <div className={styles.ranking_list}>
             {rankingData.length > 0 ? (
-              rankingData.map((major) => (
-                <div key={major.name}>
-                  <span>{major.name}</span>
-                  <span>{major.number} </span>
-                  <span>{major.matches} </span>
-                </div>
-              ))
+              rankingData
+                .sort((a, b) => b.number - a.number)
+                .map((major, index) => (
+                  <div key={major.name} className={styles.major_item}>
+                    <span className={styles.rank}>{index + 1}</span>
+                    <span className={styles.major_name}>{major.name}</span>
+                    <div className={styles.bar_container}>
+                      <div
+                        className={styles.bar}
+                        style={{ width: `${(major.number / 200) * 100}%` }}
+                      ></div>
+                      <span className={styles.number}>{major.number}</span>
+                    </div>
+                    <span className={styles.matches}>{major.matches}</span>
+                  </div>
+                ))
             ) : (
               <span>데이터가 없습니다</span>
             )}

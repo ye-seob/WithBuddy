@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { useSignupStore } from "../stores/signupStore";
-import { sendMail, signup } from "../api/user"; // API 파일에서 함수 임포트
+import { sendMail, signup } from "../api/user";
+import styles from "../public/css/Signup.module.css";
 
 const Signup: React.FC = () => {
   const {
@@ -12,14 +13,12 @@ const Signup: React.FC = () => {
     pinConfirm,
     email,
     authCode,
-    step,
     setName,
     setStudentId,
     setPin,
     setPinConfirm,
     setEmail,
     setAuthCode,
-    setStep,
   } = useSignupStore();
 
   const [errors, setErrors] = useState<{
@@ -43,28 +42,18 @@ const Signup: React.FC = () => {
   const validateEmail = (email: string): boolean =>
     /^[\w-.]+@skuniv\.ac\.kr$/.test(email);
 
-  const handleNextStep = () => {
-    if (step === 1) {
-      if (!validateStudentId(studentId)) {
-        setErrors((prev) => ({
-          ...prev,
-          studentId: "학번을 올바르게 입력해주세요.",
-        }));
-      } else {
-        setErrors((prev) => ({ ...prev, studentId: "" }));
-        setStep(2);
-      }
-    }
-  };
-
-  const handlePreviousStep = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
-
   const handleSubmit = async () => {
     let valid = true;
+    if (!validateStudentId(studentId)) {
+      setErrors((prev) => ({
+        ...prev,
+        studentId: "학번을 올바르게 입력해주세요.",
+      }));
+      valid = false;
+    } else {
+      setErrors((prev) => ({ ...prev, studentId: "" }));
+    }
+
     if (!validatePin(pin)) {
       setErrors((prev) => ({
         ...prev,
@@ -112,7 +101,7 @@ const Signup: React.FC = () => {
           email,
           authCode,
         });
-        alert(`${response}`);
+        alert(response);
       } catch (error) {
         if (error instanceof Error) {
           alert(error.message);
@@ -124,71 +113,59 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      {step === 1 && (
-        <>
-          <Input
-            type="text"
-            placeholder="이름"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Input
-            type="text"
-            placeholder="학번 Ex) 2023216049"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-          />
-          {errors.studentId && (
-            <div className="text-red-500">{errors.studentId}</div>
-          )}
-          <div className="flex flex-col items-center w-56">
-            <Button text="다음" onClick={handleNextStep} />
-          </div>
-        </>
+    <>
+      <Input
+        type="text"
+        placeholder="이름"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <Input
+        type="text"
+        placeholder="학번 Ex) 2023216049"
+        value={studentId}
+        onChange={(e) => setStudentId(e.target.value)}
+      />
+      {errors.studentId && (
+        <div className={styles.error_message}>{errors.studentId}</div>
       )}
-      {step === 2 && (
-        <>
-          <Input
-            type="password"
-            placeholder="Pin 번호 Ex) 1234"
-            value={pin}
-            onChange={(e) => setPin(e.target.value)}
-          />
-          {errors.pin && <div className="text-red-500">{errors.pin}</div>}
-          <Input
-            type="password"
-            placeholder="Pin 번호 확인"
-            value={pinConfirm}
-            onChange={(e) => setPinConfirm(e.target.value)}
-          />
-          {errors.pinConfirm && (
-            <div className="text-red-500">{errors.pinConfirm}</div>
-          )}
-          <Input
-            type="text"
-            placeholder="서경 이메일 Ex) ByBuddy@skuniv.ac.kr"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {errors.email && <div className="text-red-500">{errors.email}</div>}
-          <Button text="전송" onClick={() => sendMail(email)} />
-          <Input
-            type="text"
-            placeholder="인증번호"
-            value={authCode}
-            onChange={(e) => setAuthCode(e.target.value)}
-          />
-          {errors.authCode && (
-            <div className="text-red-500">{errors.authCode}</div>
-          )}
-          <div className="flex justify-between w-56  -mt-6">
-            <Button text="이전" onClick={handlePreviousStep} />
-            <Button text="가입" onClick={handleSubmit} />
-          </div>
-        </>
+      <Input
+        type="password"
+        placeholder="Pin 번호 Ex) 1234"
+        value={pin}
+        onChange={(e) => setPin(e.target.value)}
+      />
+      {errors.pin && <div className={styles.error_message}>{errors.pin}</div>}
+      <Input
+        type="password"
+        placeholder="Pin 번호 확인"
+        value={pinConfirm}
+        onChange={(e) => setPinConfirm(e.target.value)}
+      />
+      {errors.pinConfirm && (
+        <div className={styles.error_message}>{errors.pinConfirm}</div>
       )}
-    </div>
+      <Input
+        type="text"
+        placeholder="서경 이메일 Ex) ByBuddy@skuniv.ac.kr"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      {errors.email && (
+        <div className={styles.error_message}>{errors.email}</div>
+      )}
+      <Button text="전송" onClick={() => sendMail(email)} />
+      <Input
+        type="text"
+        placeholder="인증번호"
+        value={authCode}
+        onChange={(e) => setAuthCode(e.target.value)}
+      />
+      {errors.authCode && (
+        <div className={styles.error_message}>{errors.authCode}</div>
+      )}
+      <Button text="가입" onClick={handleSubmit} />
+    </>
   );
 };
 

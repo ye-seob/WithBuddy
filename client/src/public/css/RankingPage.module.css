@@ -24,6 +24,7 @@
   width: 400px;
   height: 450px;
   margin-right: 28px;
+  overflow: hidden;
 }
 
 .header_section {
@@ -36,13 +37,82 @@
   align-items: center;
   justify-content: center;
 }
+
 .text {
   color: white;
   font-weight: bold;
 }
-.label {
-  color: #a9bd7d;
+
+.ranking_list {
+  width: 90%;
+  margin-top: 20px;
+  height: 350px;
+  overflow-y: auto;
+}
+
+.ranking_list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ranking_list::-webkit-scrollbar-thumb {
+  background-color: #c6d1ae;
+  border-radius: 4px;
+}
+
+.ranking_list::-webkit-scrollbar-track {
+  background-color: #f7f6f0;
+}
+
+.major_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.major_name {
+  width: 30%;
   font-weight: bold;
-  font-size: 20px;
-  margin-top: 10px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bar_container {
+  display: flex;
+  align-items: center;
+  width: 60%;
+}
+
+.bar {
+  height: 20px;
+  background-color: #a9bd7d;
+  border-radius: 10px;
+}
+
+.rank {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.number {
+  margin-left: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.matches {
+  width: 10%;
+  text-align: right;
+  font-weight: bold;
+  color: #333;
+}
+
+.crown {
+  margin-left: 5px;
 }

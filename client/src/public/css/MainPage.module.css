@@ -17,6 +17,7 @@
   border-radius: 16px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 400px;
+  overflow: hidden;
 }
 
 .tab_container {
@@ -40,7 +41,7 @@
 }
 
 .tab_item.active {
-  border-bottom: 4px solid #8da55a; /* 라이트 블루 색상 */
+  border-bottom: 4px solid #8da55a;
   font-weight: bold;
 }
 
@@ -52,4 +53,19 @@
   align-items: center;
   padding: 40px;
   max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.form_container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form_container::-webkit-scrollbar-thumb {
+  background-color: #c6d1ae;
+  border-radius: 4px;
+}
+
+.form_container::-webkit-scrollbar-track {
+  background-color: #d2d2d2;
 }

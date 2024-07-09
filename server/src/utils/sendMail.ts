@@ -38,7 +38,7 @@ const sendMail = async (req: Request, res: Response) => {
     });
 
     const mailOptions = {
-      from: { name: "ByBuddy", address: `${myEmail}` },
+      from: { name: "WithBuddy", address: `${myEmail}` },
       to: email,
       subject: "가입 인증 메일",
       text: `메일인증 번호 : ${code}`,
