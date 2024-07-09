@@ -1,0 +1,48 @@
+.rankingpage_container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ecebdf;
+}
+
+.content_wrapper {
+  display: flex;
+  justify-content: center;
+  width: 1000px;
+  margin-right: 100px;
+}
+
+.main_content {
+  background-color: #f7f6f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: 450px;
+  margin-right: 28px;
+}
+
+.header_section {
+  width: 100%;
+  min-height: 50px;
+  background-color: #c6d1ae;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text {
+  color: white;
+  font-weight: bold;
+}
+.label {
+  color: #a9bd7d;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 10px;
+}

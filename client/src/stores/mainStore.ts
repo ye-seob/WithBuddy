@@ -5,9 +5,11 @@ interface MainState {
   commonNumber: string;
   buddyName: string;
   studentId: string;
+  major: string;
   setCommonNumber: (commonNumber: string) => void;
   setBuddyName: (buddyName: string) => void;
   setStudentId: (studentId: string) => void;
+  setMajor: (major: string) => void;
 }
 
 export const useMainStore = create<MainState>()(
@@ -16,13 +18,15 @@ export const useMainStore = create<MainState>()(
       commonNumber: "",
       buddyName: "",
       studentId: "",
+      major: "",
       setCommonNumber: (commonNumber) => set({ commonNumber }),
       setBuddyName: (buddyName) => set({ buddyName }),
       setStudentId: (studentId) => set({ studentId }),
+      setMajor: (major) => set({ major }),
     }),
     {
-      name: "main-storage", // 저장소의 이름을 지정합니다.
-      getStorage: () => localStorage, // localStorage를 사용하여 데이터를 저장합니다.
+      name: "main-storage",
+      getStorage: () => localStorage,
     }
   )
 );

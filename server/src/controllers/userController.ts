@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import collection from "../models/userModel";
+import major from "../models/majorModel";
+import { getMajorName } from "../utils/major";
 import { code, codeTimestamp } from "../utils/sendMail";
 const bcrypt = require("bcrypt");
 
@@ -50,6 +52,15 @@ export const signup = async (req: Request, res: Response) => {
 
     const hashingPassword = await bcrypt.hash(pin, 5);
     const commonNumber = studentId.substring(4, 10);
+    const majorCode = studentId.substring(4, 7);
+    const majorName = getMajorName(majorCode);
+
+    // 학과코드에 해당하는 Major document 업데이트
+    await major.findOneAndUpdate(
+      { name: majorName, code: majorCode },
+      { $inc: { number: 1 } },
+      { new: true, upsert: true }
+    );
 
     await collection.create({
       name,

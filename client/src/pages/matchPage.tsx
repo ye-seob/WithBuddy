@@ -12,22 +12,22 @@ const MatchPage: React.FC = () => {
     useMainStore();
   const { name, studentId } = useLoginStore();
   const [matchedAt, setMatchedAt] = useState("");
-
+  const [major, setMajor] = useState("");
   useEffect(() => {
     const loadBuddy = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/match", {
           params: { studentId },
         });
-        const data = response.data;
-        console.log(data);
+        const data = response.data.buddy;
+        const majorName = response.data.majorName;
 
         if (data.length > 0) {
           setCommonNumber(data[0].commonNumber);
           setMatchedAt(
             "since " + new Date(data[0].matchedAt).toLocaleDateString()
           );
-
+          setMajor(majorName);
           if (data.length > 1) {
             setBuddyName(
               studentId === "2023" + data[0].commonNumber
@@ -63,7 +63,7 @@ const MatchPage: React.FC = () => {
             <span className={styles.commonNumber}>{commonNumber}</span>
           </div>
           <div className={styles.major}>
-            <span className={styles.label}>💻 소프트웨어학과</span>
+            <span className={styles.label}>{major}</span>
           </div>
 
           {/* 프로필 섹션 */}

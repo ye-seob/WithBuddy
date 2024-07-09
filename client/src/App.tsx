@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import MatchPage from "./pages/MatchPage";
 import EditPage from "./pages/EditPage";
+import InfoPage from "./pages/InfoPage";
+import RankingPage from "./pages/RankingPage";
 
 const App = () => {
   return (
@@ -10,6 +12,8 @@ const App = () => {
         <Route path="/" element={<MainPage />} />
         <Route path="/match" element={<MatchPage />} />
         <Route path="/edit" element={<EditPage />} />
+        <Route path="/info" element={<InfoPage />} />
+        <Route path="/ranking" element={<RankingPage />} />
       </Routes>
     </Router>
   );
