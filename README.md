@@ -1,5 +1,5 @@
 # React + TypeScript + Vite + Express
-# 🎓 학번 매칭 웹 페이지
+# 🎓 With Buddy
 
 ## 1. 목적 및 목표
 
