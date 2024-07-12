@@ -4,23 +4,27 @@ const bcrypt = require("bcrypt");
 
 const editUserInfo = async (req: Request, res: Response) => {
   try {
-    const { newName, newPin, pinConfirm, studentId } = req.body;
+    const { newName, newPin, studentId } = req.body;
     const user = await collection.findOne({ studentId });
 
     if (!user) {
       return res.status(404).send("로그인 후 다시 이용해주세요");
     }
-    if (isNaN(newPin)) {
-      return res.status(400).json({ error: "PIN 번호는 숫자여야 합니다." });
-    }
-    if (newPin !== pinConfirm) {
-      return res.status(400).json("PIN 번호가 일치하지 않습니다.");
+
+    // 새로운 PIN 번호가 입력되었을 때만 PIN 번호를 업데이트합니다.
+    if (newPin) {
+      if (isNaN(newPin)) {
+        return res.status(400).json({ error: "PIN 번호는 숫자여야 합니다." });
+      }
+
+      const hashedNewPin = await bcrypt.hash(newPin, 5);
+      user.pin = hashedNewPin;
     }
 
-    const hashedNewPin = await bcrypt.hash(newPin, 5);
-
-    user.name = newName;
-    user.pin = hashedNewPin;
+    // 새로운 이름이 입력되었을 때만 이름을 업데이트합니다.
+    if (newName) {
+      user.name = newName;
+    }
 
     await user.save();
 

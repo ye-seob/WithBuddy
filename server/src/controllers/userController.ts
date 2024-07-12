@@ -4,6 +4,7 @@ import major from "../models/majorModel";
 import { getMajorName } from "../utils/major";
 import { code, codeTimestamp } from "../utils/sendMail";
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const CODE_LIMIT_TIME = 3 * 60 * 1000; // 3분
 
@@ -14,10 +15,39 @@ export const login = async (req: Request, res: Response) => {
     const user = await collection.findOne({ studentId });
 
     if (!user) return res.status(404).send("등록되지 않은 학번입니다.");
-
+    console.log(user);
     const passwordMatching = await bcrypt.compare(pin, user.pin);
 
     if (passwordMatching) {
+      const accessToken = jwt.sign(
+        {
+          studentId: user.studentId,
+          userName: user.name,
+          email: user.email,
+          commonNumber: user.commonNumber,
+        },
+        process.env.ACCESS_SECRET,
+        { expiresIn: "1m", issuer: "About Tech" }
+      );
+
+      const refreshToken = jwt.sign(
+        {
+          id: user._id,
+          userName: user.name,
+          email: user.email,
+        },
+        process.env.REFRESH_SECRET,
+        { expiresIn: "24h", issuer: "About Tech" }
+      );
+
+      res.cookie("accessToken", accessToken, {
+        secure: false,
+        httpOnly: true,
+      });
+      res.cookie("refreshToken", refreshToken, {
+        secure: false,
+        httpOnly: true,
+      });
       res.status(200).send(user);
     } else {
       res.status(401).send("비밀번호가 일치하지 않습니다.");
@@ -26,6 +56,8 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json({ error: "서버 문제 발생" });
   }
 };
+
+export const logout = async (req: Request, res: Response) => {};
 
 // 회원가입 처리 함수
 export const signup = async (req: Request, res: Response) => {

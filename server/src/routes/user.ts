@@ -13,4 +13,5 @@ router.put("/api/edit", editController.editUserInfo);
 router.get("/api/ranking", rankingController.laodRanking);
 
 router.post("/api/send-mail", mail.sendMail);
+
 export default router;

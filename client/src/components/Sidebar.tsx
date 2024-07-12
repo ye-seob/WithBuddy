@@ -1,3 +1,4 @@
+import React from "react";
 import {
   CiHome,
   CiEdit,
@@ -6,30 +7,63 @@ import {
   CiLogin,
   CiSettings,
 } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const Sidebar: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/logout");
+
+      if (response.status === 200) {
+        console.log("로그아웃 성공");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+    }
+  };
+
   return (
     <div className="w-16 mr-16 flex flex-col items-center rounded-xl bg-[#F7F6F0] shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 ease-in-out">
       <Link to="/match">
-        <CiHome className=" text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out" />
+        <div className="text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+          <CiHome />
+        </div>
       </Link>
 
       <Link to="/info">
-        <CiSearch className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out" />
+        <div className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+          <CiSearch />
+        </div>
       </Link>
 
       <Link to="/ranking">
-        <CiBoxList className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out" />
+        <div className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+          <CiBoxList />
+        </div>
       </Link>
+
       <Link to="/edit">
-        <CiEdit className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out" />
+        <div className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+          <CiEdit />
+        </div>
       </Link>
+
       <Link to="/">
-        <CiSettings className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out" />
+        <div className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+          <CiSettings />
+        </div>
       </Link>
-      <Link to="/">
-        <CiLogin className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out" />
-      </Link>
+
+      <div
+        className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out cursor-pointer"
+        onClick={handleLogout}
+      >
+        <CiLogin />
+      </div>
     </div>
   );
 };

@@ -90,7 +90,7 @@
 
 .bar {
   height: 20px;
-  background-color: #a9bd7d;
+  background: linear-gradient(to right, #d9decd, #89a95e);
   border-radius: 10px;
 }
 

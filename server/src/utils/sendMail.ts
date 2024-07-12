@@ -40,8 +40,16 @@ const sendMail = async (req: Request, res: Response) => {
     const mailOptions = {
       from: { name: "WithBuddy", address: `${myEmail}` },
       to: email,
-      subject: "가입 인증 메일",
-      text: `메일인증 번호 : ${code}`,
+      subject: "WithBuddy 가입 인증 메일",
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <h2>WithBuddy 가입 인증 메일</h2>
+          <p>안녕하세요,</p>
+          <p>가입을 환영합니다 아래의 인증 번호를 사용하여 이메일 인증을 완료해주세요.</p>
+          <h3 style="color: #0066cc;">인증 번호: ${code}</h3>
+          <p>감사합니다<br>WithBuddy </p>
+        </div>
+      `,
     };
 
     await transporter.sendMail(mailOptions);

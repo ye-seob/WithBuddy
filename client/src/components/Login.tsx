@@ -13,10 +13,17 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
-        studentId,
-        pin,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/login",
+        {
+          studentId,
+          pin,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
       if (response.status === 200) {
         const { name } = response.data;
         setName(name);

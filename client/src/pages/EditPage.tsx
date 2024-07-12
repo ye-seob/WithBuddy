@@ -15,10 +15,6 @@ const EditPage: React.FC = () => {
   const [pinConfirm, setPinConfirm] = useState("");
 
   const handleSave = async () => {
-    if (newPin.length != 4) {
-      alert("pin 번호는 네자리입니다");
-      return;
-    }
     if (newPin != pinConfirm) {
       alert("pin 번호가 일치하지 않습니다");
       return;
@@ -26,8 +22,7 @@ const EditPage: React.FC = () => {
     try {
       const response = await axios.put("http://localhost:3000/api/edit", {
         newName: tempName,
-        newPin,
-        pinConfirm,
+        newPin: newPin || undefined,
         studentId,
       });
       if (response.status === 200) {
