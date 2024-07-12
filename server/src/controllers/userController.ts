@@ -14,7 +14,7 @@ export const login = async (req: Request, res: Response) => {
     const { studentId, pin } = req.body;
     const user = await collection.findOne({ studentId });
 
-    if (!user) return res.status(404).send("등록되지 않은 학번입니다.");
+    if (!user) return res.status(404).send("등록되지 않은 학번입니다");
     console.log(user);
     const passwordMatching = await bcrypt.compare(pin, user.pin);
 
