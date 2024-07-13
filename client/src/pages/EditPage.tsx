@@ -20,16 +20,24 @@ const EditPage: React.FC = () => {
       return;
     }
     try {
-      const response = await axios.put("http://localhost:3000/api/edit", {
-        newName: tempName,
-        newPin: newPin || undefined,
-        studentId,
-      });
+      const response = await axios.put(
+        "http://localhost:3000/api/edit",
+        {
+          newName: tempName,
+          newPin: newPin || undefined,
+          studentId,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       if (response.status === 200) {
         setName(tempName);
+        alert("정보 수정 완료");
       }
     } catch (error) {
       console.error("정보 수정 실패:", error);
+      alert(error);
     }
   };
 

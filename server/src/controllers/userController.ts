@@ -30,24 +30,22 @@ export const login = async (req: Request, res: Response) => {
         { expiresIn: "1m", issuer: "About Tech" }
       );
 
-      const refreshToken = jwt.sign(
-        {
-          id: user._id,
-          userName: user.name,
-          email: user.email,
-        },
-        process.env.REFRESH_SECRET,
-        { expiresIn: "24h", issuer: "About Tech" }
-      );
+      //const refreshToken = jwt.sign(
+      // {
+      //   id: user._id,
+      //   userName: user.name,
+      //   email: user.email,
+      // },
+      //  process.env.REFRESH_SECRET,
+      // { expiresIn: "24h", issuer: "About Tech" }
+      // );
 
-      res.cookie("accessToken", accessToken, {
-        secure: false,
-        httpOnly: true,
-      });
-      res.cookie("refreshToken", refreshToken, {
-        secure: false,
-        httpOnly: true,
-      });
+      res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });
+      //res.cookie("refreshToken", refreshToken, {
+      //   httpOnly: true,
+      //  secure: true,
+      // });
+
       res.status(200).send(user);
     } else {
       res.status(401).send("비밀번호가 일치하지 않습니다.");
@@ -57,7 +55,17 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-export const logout = async (req: Request, res: Response) => {};
+export const logout = async (req: Request, res: Response) => {
+  // try {
+  //   res.clearCookie("accessToken");
+  //   res.clearCookie("refreshToken");
+  //   res.status(200).json({
+  //     message: "로그아웃 성공",
+  //   });
+  // } catch (error) {
+  //   console.error(error);
+  // }
+};
 
 // 회원가입 처리 함수
 export const signup = async (req: Request, res: Response) => {

@@ -49,3 +49,14 @@
   display: flex;
   margin-top: 20px;
 }
+.text {
+  color: white;
+  font-weight: bold;
+}
+
+.label {
+  color: #a9bd7d;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 10px;
+}

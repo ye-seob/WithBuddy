@@ -27,6 +27,7 @@ const MatchPage: React.FC = () => {
       try {
         const response = await axios.get("http://localhost:3000/api/match", {
           params: { studentId },
+          withCredentials: true,
         });
         const data = response.data.buddy;
         const majorName = response.data.majorName;

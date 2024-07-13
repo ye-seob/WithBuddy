@@ -16,7 +16,9 @@ const RankingPage = () => {
 
   const loadRanking = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/ranking");
+      const response = await axios.get("http://localhost:3000/api/ranking", {
+        withCredentials: true,
+      });
       setRankingData(response.data);
     } catch (error) {
       console.error("불러오기 실패:", error);
