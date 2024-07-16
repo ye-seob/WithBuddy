@@ -30,21 +30,24 @@ export const login = async (req: Request, res: Response) => {
         { expiresIn: "1m", issuer: "About Tech" }
       );
 
-      //const refreshToken = jwt.sign(
-      // {
-      //   id: user._id,
-      //   userName: user.name,
-      //   email: user.email,
-      // },
-      //  process.env.REFRESH_SECRET,
-      // { expiresIn: "24h", issuer: "About Tech" }
-      // );
+      const refreshToken = jwt.sign(
+        {
+          id: user._id,
+          userName: user.name,
+          email: user.email,
+        },
+        process.env.REFRESH_SECRET,
+        { expiresIn: "24h", issuer: "About Tech" }
+      );
 
-      res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });
-      //res.cookie("refreshToken", refreshToken, {
-      //   httpOnly: true,
-      //  secure: true,
-      // });
+      res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: true,
+      });
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+      });
 
       res.status(200).send(user);
     } else {
@@ -56,15 +59,27 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const logout = async (req: Request, res: Response) => {
-  // try {
-  //   res.clearCookie("accessToken");
-  //   res.clearCookie("refreshToken");
-  //   res.status(200).json({
-  //     message: "로그아웃 성공",
-  //   });
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  try {
+    res.cookie("accessToken", "", {
+      expires: new Date(1),
+      path: "/",
+      httpOnly: true,
+      secure: true,
+    });
+    res.cookie("refreshToken", "", {
+      expires: new Date(1),
+      path: "/",
+      httpOnly: true,
+      secure: true,
+    });
+
+    res.status(200).json({
+      message: "로그아웃 성공",
+    });
+  } catch (error) {
+    res.status(500).json({ error: "서버 문제 발생" });
+    console.error(error);
+  }
 };
 
 // 회원가입 처리 함수

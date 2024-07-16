@@ -9,7 +9,7 @@ import {
 } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+axios.defaults.withCredentials = true;
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
