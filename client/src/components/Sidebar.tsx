@@ -19,6 +19,7 @@ const Sidebar: React.FC = () => {
 
       if (response.status === 200) {
         console.log("로그아웃 성공");
+        localStorage.clear();
         navigate("/");
       }
     } catch (error) {

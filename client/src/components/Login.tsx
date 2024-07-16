@@ -1,36 +1,26 @@
+import React, { useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
-import { useLoginStore } from "../stores/loginStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useMainStore } from "../stores/mainStore";
+import { useUserStore } from "../stores/userStore";
 import styles from "../public/css/Login.module.css";
+import { login } from "../api/user";
 
 const Login: React.FC = () => {
-  const { studentId, pin, setStudentId, setPin, setName } = useLoginStore();
-  const { setCommonNumber, setBuddyName } = useMainStore();
+  const [pin, setPin] = useState("");
+  const { studentId, setStudentId, setName, setCommonNumber } = useUserStore();
   const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/login",
-        {
-          studentId,
-          pin,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.status === 200) {
-        const { name } = response.data;
-        setName(name);
-        setCommonNumber("");
-        setBuddyName("");
-        navigate("/match");
-      }
+      const response = await login({ studentId, pin });
+      console.log(response);
+      const { name, commonNumber } = response;
+      setName(name);
+      setCommonNumber(commonNumber);
+      navigate("/match");
     } catch (error) {
       console.error("Login failed:", error);
     }

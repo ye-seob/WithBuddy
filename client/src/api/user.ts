@@ -1,17 +1,4 @@
-// src/api/user.ts
 import axios from "axios";
-
-export const sendMail = async (email: string): Promise<string> => {
-  try {
-    const response = await axios.post("http://localhost:3000/api/send-mail", {
-      email,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("메일 전송 실패:", error);
-    throw new Error("메일 전송에 실패했습니다. 다시 시도해 주세요.");
-  }
-};
 
 interface SignupData {
   name: string;
@@ -21,6 +8,17 @@ interface SignupData {
   email: string;
   authCode: string;
 }
+interface LoginData {
+  studentId: string;
+  pin: string;
+}
+
+interface LoginResponse {
+  name: string;
+  commonNumber: string;
+  matchedAt: string;
+  studentId: string;
+}
 
 export const signup = async (data: SignupData): Promise<string> => {
   try {
@@ -29,5 +27,14 @@ export const signup = async (data: SignupData): Promise<string> => {
   } catch (error) {
     console.error("가입 실패:", error);
     throw new Error("가입에 실패했습니다. 다시 시도해 주세요.");
+  }
+};
+export const login = async (data: LoginData): Promise<LoginResponse> => {
+  try {
+    const response = await axios.post("http://localhost:3000/api/login", data);
+    return response.data;
+  } catch (error) {
+    console.error("로그인 실패:", error);
+    throw new Error("로그인에 실패했습니다. 다시 시도해 주세요.");
   }
 };

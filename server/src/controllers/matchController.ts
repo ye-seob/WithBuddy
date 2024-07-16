@@ -25,11 +25,13 @@ const match = async (req: Request, res: Response) => {
     .sort({ studentId: 1 });
 
   if (buddy.length > 1) {
-    const notMatchedBuddies = buddy.filter((user: any) => !user.matchedAt);
+    const notMatchedBuddies = buddy.filter(
+      (user: any) => user.matchedAt === "아직 연결되지 않았습니다"
+    );
     if (notMatchedBuddies.length > 0) {
       await collection.updateMany(
-        { commonNumber, matchedAt: null },
-        { $set: { matchedAt: new Date() } }
+        { commonNumber, matchedAt: "아직 연결되지 않았습니다" },
+        { $set: { matchedAt: new Date().toISOString() } }
       );
 
       await major.findOneAndUpdate(

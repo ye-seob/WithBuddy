@@ -22,8 +22,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   matchedAt: {
-    type: Date,
-    default: null,
+    type: String,
+    default: "아직 연결되지 않았습니다",
   },
 });
 

@@ -1,25 +1,17 @@
 import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
-import { useSignupStore } from "../stores/signupStore";
-import { sendMail, signup } from "../api/user";
+import { sendMail } from "../api/mail";
+import { signup } from "../api/user";
 import styles from "../public/css/Signup.module.css";
 
 const Signup: React.FC = () => {
-  const {
-    name,
-    studentId,
-    pin,
-    pinConfirm,
-    email,
-    authCode,
-    setName,
-    setStudentId,
-    setPin,
-    setPinConfirm,
-    setEmail,
-    setAuthCode,
-  } = useSignupStore();
+  const [name, setName] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [pin, setPin] = useState("");
+  const [pinConfirm, setPinConfirm] = useState("");
+  const [email, setEmail] = useState("");
+  const [authCode, setAuthCode] = useState("");
 
   const [errors, setErrors] = useState<{
     studentId: string;

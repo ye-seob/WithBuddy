@@ -4,40 +4,27 @@ import Header from "../components/Header";
 import Input from "../components/Input";
 import Sidebar from "../components/Sidebar";
 import styles from "../public/css/EditPage.module.css";
-import { useLoginStore } from "../stores/loginStore";
-import axios from "axios";
+import { useUserStore } from "../stores/userStore";
+import { editUserInfo } from "../api/edit";
 
 const EditPage: React.FC = () => {
-  const { name, setName, studentId } = useLoginStore();
+  const { name, setName, studentId } = useUserStore();
 
   const [tempName, setTempName] = useState(name);
   const [newPin, setNewPin] = useState("");
   const [pinConfirm, setPinConfirm] = useState("");
 
   const handleSave = async () => {
-    if (newPin != pinConfirm) {
-      alert("pin 번호가 일치하지 않습니다");
+    if (newPin !== pinConfirm) {
+      alert("PIN 번호가 일치하지 않습니다");
       return;
     }
     try {
-      const response = await axios.put(
-        "http://localhost:3000/api/edit",
-        {
-          newName: tempName,
-          newPin: newPin || undefined,
-          studentId,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      if (response.status === 200) {
-        setName(tempName);
-        alert("정보 수정 완료");
-      }
+      await editUserInfo(studentId, tempName, newPin);
+      setName(tempName);
+      alert("정보 수정 완료");
     } catch (error) {
-      console.error("정보 수정 실패:", error);
-      alert(error);
+      alert("정보 수정 실패: " + error);
     }
   };
 

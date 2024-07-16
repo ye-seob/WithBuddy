@@ -11,15 +11,14 @@ const CODE_LIMIT_TIME = 3 * 60 * 1000; // 3분
 // 로그인 처리 함수
 export const login = async (req: Request, res: Response) => {
   try {
-    const { studentId, pin } = req.body;
+    const { studentId, pin }: { studentId: string; pin: string } = req.body;
     const user = await collection.findOne({ studentId });
 
     if (!user) return res.status(404).send("등록되지 않은 학번입니다");
-    console.log(user);
     const passwordMatching = await bcrypt.compare(pin, user.pin);
 
     if (passwordMatching) {
-      const accessToken = jwt.sign(
+      const accessToken: string = jwt.sign(
         {
           studentId: user.studentId,
           userName: user.name,
@@ -30,7 +29,7 @@ export const login = async (req: Request, res: Response) => {
         { expiresIn: "1m", issuer: "About Tech" }
       );
 
-      const refreshToken = jwt.sign(
+      const refreshToken: string = jwt.sign(
         {
           id: user._id,
           userName: user.name,
@@ -48,8 +47,14 @@ export const login = async (req: Request, res: Response) => {
         httpOnly: true,
         secure: true,
       });
+      const response = {
+        studentId: user.studentId,
+        name: user.name,
+        commonNumber: user.commonNumber,
+        matchedAt: user.matchedAt,
+      };
 
-      res.status(200).send(user);
+      res.status(200).send(response);
     } else {
       res.status(401).send("비밀번호가 일치하지 않습니다.");
     }
@@ -60,19 +65,8 @@ export const login = async (req: Request, res: Response) => {
 
 export const logout = async (req: Request, res: Response) => {
   try {
-    res.cookie("accessToken", "", {
-      expires: new Date(1),
-      path: "/",
-      httpOnly: true,
-      secure: true,
-    });
-    res.cookie("refreshToken", "", {
-      expires: new Date(1),
-      path: "/",
-      httpOnly: true,
-      secure: true,
-    });
-
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
     res.status(200).json({
       message: "로그아웃 성공",
     });
