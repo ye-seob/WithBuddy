@@ -16,7 +16,6 @@ const Login: React.FC = () => {
   const handleLogin = async () => {
     try {
       const response = await login({ studentId, pin });
-      console.log(response);
       const { name, commonNumber } = response;
       setName(name);
       setCommonNumber(commonNumber);

@@ -57,7 +57,7 @@ const RankingPage = () => {
                   </div>
                 ))
             ) : (
-              <span>데이터가 없습니다</span>
+              <span className={styles.label}>로그인 후 다시 이용해주세요</span>
             )}
           </div>
         </div>

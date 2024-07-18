@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import major from "../models/majorModel";
 
-const laodRanking = async (req: Request, res: Response) => {
+const loadRanking = async (req: Request, res: Response) => {
   try {
     const majors = await major.find();
     return res.status(200).json(majors);
@@ -12,5 +12,5 @@ const laodRanking = async (req: Request, res: Response) => {
 };
 
 module.exports = {
-  laodRanking,
+  loadRanking,
 };

@@ -26,7 +26,7 @@ export const login = async (req: Request, res: Response) => {
           commonNumber: user.commonNumber,
         },
         process.env.ACCESS_SECRET,
-        { expiresIn: "1m", issuer: "About Tech" }
+        { expiresIn: "10m", issuer: "About Tech" }
       );
 
       const refreshToken: string = jwt.sign(

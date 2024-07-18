@@ -116,3 +116,9 @@
 .crown {
   margin-left: 5px;
 }
+.label {
+  color: #a9bd7d;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 10px;
+}

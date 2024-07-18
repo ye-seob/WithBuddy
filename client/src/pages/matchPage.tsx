@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Header from "../components/Header";
 import Profile from "../components/Profile";
 import Sidebar from "../components/Sidebar";
@@ -9,7 +8,7 @@ import { useUserStore } from "../stores/userStore";
 import styles from "../public/css/MatchPage.module.css";
 
 import { loadBuddy } from "../api/match";
-
+import { refreshToken } from "../api/token";
 const MatchPage: React.FC = () => {
   const {
     name,
@@ -17,7 +16,6 @@ const MatchPage: React.FC = () => {
     commonNumber,
     buddyName,
     major,
-    setCommonNumber,
     setBuddyName,
     setMajor,
   } = useUserStore();
@@ -31,25 +29,16 @@ const MatchPage: React.FC = () => {
         const data = await loadBuddy(studentId);
         const buddyData = data.buddy;
         const majorName = data.majorName;
+        setMajor(majorName);
 
         if (buddyData.length > 1) {
-          setCommonNumber(buddyData[0].commonNumber);
-          setMatchedAt(
-            "since " + new Date(buddyData[0].matchedAt).toLocaleDateString()
+          setMatchedAt(buddyData[0].matchedAt);
+          setBuddyName(
+            studentId === "2023" + buddyData[0].commonNumber
+              ? buddyData[1].name
+              : buddyData[0].name
           );
-          setMajor(majorName);
-          if (buddyData.length > 1) {
-            setBuddyName(
-              studentId === "2023" + buddyData[0].commonNumber
-                ? buddyData[1].name
-                : buddyData[0].name
-            );
-          } else {
-            setMatchedAt(" 등록되지 않았습니다");
-            setBuddyName("등록되지 않았습니다");
-          }
         } else {
-          setMatchedAt(" 등록되지 않았습니다");
           setBuddyName("등록되지 않았습니다");
         }
       } catch (error) {
@@ -59,7 +48,7 @@ const MatchPage: React.FC = () => {
     };
 
     fetchBuddyData();
-  }, [studentId, setCommonNumber, setBuddyName]);
+  }, [studentId, setBuddyName, setMajor]);
 
   return (
     <div className={styles.matchpage_container}>
@@ -91,7 +80,8 @@ const MatchPage: React.FC = () => {
               />
             </div>
           </div>
-          <div className={styles.matched_label}>{matchedAt}</div>
+          <button onClick={refreshToken}>버튼</button>
+          <div className={styles.matched_label}>since {matchedAt}</div>
         </div>
       </div>
     </div>

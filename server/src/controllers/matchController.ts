@@ -2,21 +2,23 @@ import { Request, Response } from "express";
 import collection from "../models/userModel";
 import major from "../models/majorModel";
 import { getMajorName } from "../utils/major";
+import moment from "moment-timezone";
 
 const match = async (req: Request, res: Response) => {
-  const studentId = req.query.studentId as string | undefined; //현재 가입된 유저의 학번
+  const studentId = req.query.studentId as string | undefined; // 현재 가입된 유저의 학번
 
   if (!studentId) {
     res.status(400).send("로그인 후 다시 이용해주세요.");
     return;
   }
 
-  //2023216049에서 216049 공통번호 분리
+  // 2023216049에서 216049 공통번호 분리
   const commonNumber = studentId.substring(4, 10);
   const majorCode = studentId.substring(4, 7); // 학과코드 추출
   const majorName = getMajorName(majorCode);
-  //공통 번호로 찾고 name, studentId,commonNumber,matchedAt을 가져온다
-  //그리고 오름차순으로 정리해서 두 명을 buddy에 담는다
+
+  // 공통 번호로 찾고 name, studentId, commonNumber, matchedAt을 가져온다
+  // 그리고 오름차순으로 정리해서 두 명을 buddy에 담는다
   const buddy = await collection
     .find(
       { commonNumber },
@@ -29,9 +31,11 @@ const match = async (req: Request, res: Response) => {
       (user: any) => user.matchedAt === "아직 연결되지 않았습니다"
     );
     if (notMatchedBuddies.length > 0) {
+      const currentKSTDate = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
+      console.log(currentKSTDate);
       await collection.updateMany(
         { commonNumber, matchedAt: "아직 연결되지 않았습니다" },
-        { $set: { matchedAt: new Date().toISOString() } }
+        { $set: { matchedAt: currentKSTDate } }
       );
 
       await major.findOneAndUpdate(
