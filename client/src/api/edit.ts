@@ -1,4 +1,4 @@
-import axios from "axios";
+import instance from "./API";
 
 export const editUserInfo = async (
   studentId: string,
@@ -6,7 +6,7 @@ export const editUserInfo = async (
   newPin?: string
 ): Promise<void> => {
   try {
-    const response = await axios.put(
+    const response = await instance.put(
       "http://localhost:3000/api/edit",
       {
         newName,
@@ -18,7 +18,7 @@ export const editUserInfo = async (
       }
     );
     if (response.status !== 200) {
-      throw new Error("Failed to update user information");
+      throw new Error("정보 수정 실패");
     }
   } catch (error) {
     console.error("정보 수정 실패:", error);

@@ -1,8 +1,8 @@
-import axios from "axios";
+import instance from "./API";
 
 export const loadBuddy = async (studentId: string) => {
   try {
-    const response = await axios.get("http://localhost:3000/api/match", {
+    const response = await instance.get("http://localhost:3000/api/match", {
       params: { studentId },
       withCredentials: true,
     });
