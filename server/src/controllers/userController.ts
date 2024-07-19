@@ -40,7 +40,6 @@ export const login = async (req: Request, res: Response) => {
       );
 
       res.cookie("accessToken", accessToken, {
-        httpOnly: true,
         secure: true,
       });
       res.cookie("refreshToken", refreshToken, {

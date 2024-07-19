@@ -8,18 +8,20 @@ const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
     if (!token) {
       return res.status(401).send("토큰이 누락되었습니다");
     }
+    console.log("인증 함수 실행댐");
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_SECRET);
+    console.log("인증 함수 실행댐2");
     req.user = decodedToken;
     next();
   } catch (error) {
-    return res.status(500).send("서버 오류: " + error);
+    return res.status(401).send("토큰이 만료되었습니다");
   }
 };
 const refreshToken = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.refreshToken;
-
+    console.log("리프레시 함수 실행댐");
     if (!token) {
       return res
         .status(401)
