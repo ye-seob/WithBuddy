@@ -1,4 +1,4 @@
-# React + TypeScript + Vite + Express
+# React(vite)+ TypeScript + Express
 # 🎓 With Buddy
 
 ## 1. 목적 및 목표
