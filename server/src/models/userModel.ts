@@ -25,6 +25,23 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "아직 연결되지 않았습니다",
   },
+  instagramId: {
+    type: String,
+    required: false,
+  },
+  kakaoId: {
+    type: String,
+    required: false,
+  },
+
+  mbti: {
+    type: String,
+    required: false,
+  },
+  hobbies: {
+    type: [String],
+    required: false,
+  },
 });
 
 const collection = mongoose.model("users", userSchema);

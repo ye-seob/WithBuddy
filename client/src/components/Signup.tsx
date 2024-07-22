@@ -1,18 +1,50 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { sendMail } from "../api/mail";
 import { signup } from "../api/user";
 import styles from "../public/css/Signup.module.css";
 
-const Signup: React.FC = () => {
+const Signup = () => {
   const [name, setName] = useState("");
   const [studentId, setStudentId] = useState("");
   const [pin, setPin] = useState("");
   const [pinConfirm, setPinConfirm] = useState("");
   const [email, setEmail] = useState("");
   const [authCode, setAuthCode] = useState("");
+  const mbti = [
+    "INTJ",
+    "INTP",
+    "ENTJ",
+    "ENTP",
+    "INFJ",
+    "INFP",
+    "ENFJ",
+    "ENFP",
+    "ISTJ",
+    "ISFJ",
+    "ESTJ",
+    "ESFJ",
+    "ISTP",
+    "ISFP",
+    "ESTP",
+    "ESFP",
+  ];
+  const [instagramId, setInstagramId] = useState("");
+  const [kakaoId, setKakaoId] = useState("");
+  const [selectedMbti, setSelectedMbti] = useState("");
+  const [selectedHobby, setSelectedHobby] = useState("");
 
+  const hobbies = [
+    { name: "독서", icon: "📚" },
+    { name: "여행", icon: "✈️" },
+    { name: "요리", icon: "🍳" },
+    { name: "운동", icon: "⚽" },
+    { name: "음악", icon: "🎵" },
+    { name: "게임", icon: "🎮" },
+    { name: "영화", icon: "🎬" },
+    { name: "기타 등등", icon: "🔍" },
+  ];
   const [errors, setErrors] = useState<{
     studentId: string;
     pin: string;
@@ -103,9 +135,17 @@ const Signup: React.FC = () => {
       }
     }
   };
+  const handleMbtiClick = (type: string) => {
+    setSelectedMbti(type);
+  };
+
+  const handleHobbyClick = (hobby: string) => {
+    setSelectedHobby(hobby);
+  };
 
   return (
     <>
+      <label className={styles.label}>인적사항</label>
       <Input
         type="text"
         placeholder="이름"
@@ -137,6 +177,7 @@ const Signup: React.FC = () => {
       {errors.pinConfirm && (
         <div className={styles.error_message}>{errors.pinConfirm}</div>
       )}
+      <label className={styles.label}>서경 이메일 인증</label>
       <Input
         type="text"
         placeholder="서경 이메일 Ex) ByBuddy@skuniv.ac.kr"
@@ -156,6 +197,47 @@ const Signup: React.FC = () => {
       {errors.authCode && (
         <div className={styles.error_message}>{errors.authCode}</div>
       )}
+      <label className={styles.label}>sns 아이디</label>
+      <Input
+        type="text"
+        placeholder="인스타 아이디"
+        value={instagramId}
+        onChange={(e) => setInstagramId(e.target.value)}
+      />
+      <Input
+        type="text"
+        placeholder="카카오톡 아이디"
+        value={kakaoId}
+        onChange={(e) => setKakaoId(e.target.value)}
+      />
+      <label className={styles.label}>MBTI</label>
+      <div className={styles.mbti_container}>
+        {mbti.map((type) => (
+          <button
+            key={type}
+            className={`${styles.mbti_button} ${
+              selectedMbti === type ? styles.selected : ""
+            }`}
+            onClick={() => handleMbtiClick(type)}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+      <label className={styles.label}>취미</label>
+      <div className={styles.hobby_container}>
+        {hobbies.map((hobby) => (
+          <button
+            key={hobby.name}
+            className={`${styles.hobby_button} ${
+              selectedHobby === hobby.name ? styles.selected : ""
+            }`}
+            onClick={() => handleHobbyClick(hobby.name)}
+          >
+            {hobby.icon} {hobby.name}
+          </button>
+        ))}
+      </div>
       <Button text="가입" onClick={handleSubmit} />
     </>
   );

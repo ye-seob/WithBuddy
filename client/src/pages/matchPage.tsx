@@ -8,7 +8,6 @@ import { useUserStore } from "../stores/userStore";
 import styles from "../public/css/MatchPage.module.css";
 
 import { loadBuddy } from "../api/match";
-import { refreshToken } from "../api/token";
 const MatchPage: React.FC = () => {
   const {
     name,
@@ -80,7 +79,6 @@ const MatchPage: React.FC = () => {
               />
             </div>
           </div>
-          <button onClick={refreshToken}>버튼</button>
           <div className={styles.matched_label}>since {matchedAt}</div>
         </div>
       </div>

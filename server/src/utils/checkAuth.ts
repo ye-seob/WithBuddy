@@ -8,10 +8,8 @@ const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
     if (!token) {
       return res.status(401).send("토큰이 누락되었습니다");
     }
-    console.log("인증 함수 실행댐");
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_SECRET);
-    console.log("인증 함수 실행댐2");
     req.user = decodedToken;
     next();
   } catch (error) {
@@ -21,14 +19,12 @@ const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
 const refreshToken = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.refreshToken;
-    console.log("리프레시 함수 실행댐");
     if (!token) {
       return res
         .status(401)
         .json({ message: "리프레시 토큰이 전달되지 않았습니다." });
     }
 
-    // 리프레시 토큰 검증
     let data;
     try {
       data = jwt.verify(token, process.env.REFRESH_SECRET);

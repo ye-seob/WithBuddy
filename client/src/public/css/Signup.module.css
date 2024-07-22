@@ -38,3 +38,67 @@
   font-size: 1em;
   margin-bottom: 20px;
 }
+.label {
+  color: #a9bd7d;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 10px;
+  border-bottom: 1px solid #a9bd7d;
+}
+
+.mbti_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mbti_button {
+  background-color: #f7f6f0;
+  color: #c6d1ae;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mbti_button:hover {
+  background-color: #c6d1ae;
+  color: white;
+}
+
+.mbti_button.selected {
+  background-color: #c6d1ae;
+  color: white;
+}
+
+.hobby_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.hobby_button {
+  background-color: #f7f6f0;
+  color: #c6d1ae;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.hobby_button:hover {
+  background-color: #c6d1ae;
+  color: white;
+}
+
+.hobby_button.selected {
+  background-color: #c6d1ae;
+  color: white;
+}
