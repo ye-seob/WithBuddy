@@ -5,15 +5,7 @@ const majorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  code: {
-    type: Number,
-    required: true,
-  },
   number: {
-    type: Number,
-    default: 0,
-  },
-  matches: {
     type: Number,
     default: 0,
   },

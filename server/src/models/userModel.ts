@@ -21,19 +21,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
-  instagramId: {
-    type: String,
-    required: false,
+  snsIds: {
+    instaId: {
+      type: String,
+      required: false,
+    },
+    kakaoId: {
+      type: String,
+      required: false,
+    },
   },
-  kakaoId: {
-    type: String,
-    required: false,
-  },
-
   mbti: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 

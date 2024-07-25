@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import collection from "../models/userModel";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+import Major from "../models/majorModel";
 export const login = async (req: Request, res: Response) => {
   try {
     const { studentId, pin }: { studentId: string; pin: string } = req.body;
@@ -10,14 +10,13 @@ export const login = async (req: Request, res: Response) => {
 
     if (!user) return res.status(404).send("등록되지 않은 학번입니다");
     const passwordMatching = await bcrypt.compare(pin, user.pin);
-
+    console.log(user);
     if (passwordMatching) {
       const accessToken: string = jwt.sign(
         {
           studentId: user.studentId,
           userName: user.name,
-          email: user.email,
-          commonNumber: user.commonNumber,
+          major: user.major,
         },
         process.env.ACCESS_SECRET,
         { expiresIn: "15m", issuer: "About Tech" }
@@ -25,9 +24,9 @@ export const login = async (req: Request, res: Response) => {
 
       const refreshToken: string = jwt.sign(
         {
-          id: user._id,
+          studentId: user.studentId,
           userName: user.name,
-          email: user.email,
+          major: user.major,
         },
         process.env.REFRESH_SECRET,
         { expiresIn: "24h", issuer: "About Tech" }
@@ -41,10 +40,10 @@ export const login = async (req: Request, res: Response) => {
         secure: true,
       });
       const response = {
-        studentId: user.studentId,
-        name: user.name,
-        commonNumber: user.commonNumber,
-        matchedAt: user.matchedAt,
+        userName: user.name,
+        major: user.major,
+        snsIds: user.snsIds,
+        mbti: user.mbti,
       };
 
       res.status(200).send(response);
@@ -78,23 +77,26 @@ export const signup = async (req: Request, res: Response) => {
     if (pin != pinConfirm) {
       return res.status(500).json("pin번호 불일치");
     }
-
     const existingUser = await collection.findOne({ studentId });
-
     if (existingUser) {
       return res.status(500).json("이미 가입된 학번입니다.");
     }
-
     const hashingPassword = await bcrypt.hash(pin, 5);
-
     await collection.create({
       name,
       studentId,
+      major,
       pin: hashingPassword,
       email,
+      snsIds,
+      mbti,
     });
-
     res.status(200).send("회원가입 성공했습니다.");
+    await Major.findOneAndUpdate(
+      { name: major },
+      { $inc: { number: 1 } },
+      { new: true, upsert: true }
+    );
   } catch (error) {
     res.status(500).json({ error: "서버 문제 발생" });
   }

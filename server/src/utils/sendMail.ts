@@ -28,6 +28,7 @@ const sendMail = async (req: Request, res: Response) => {
 
     const code = makeCode();
     authCodes[email] = code;
+    console.log(code);
 
     const transporter = nodeMailer.createTransport({
       service: "gmail",

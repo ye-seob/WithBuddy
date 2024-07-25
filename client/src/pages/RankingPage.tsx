@@ -8,7 +8,6 @@ interface Major {
   name: string;
   code: number;
   number: number;
-  matches: string;
 }
 
 const RankingPage = () => {
@@ -47,11 +46,10 @@ const RankingPage = () => {
                     <div className={styles.bar_container}>
                       <div
                         className={styles.bar}
-                        style={{ width: `${(major.number / 200) * 100}%` }}
+                        style={{ width: `${(major.number / 10) * 100}%` }}
                       ></div>
                       <span className={styles.number}>{major.number}</span>
                     </div>
-                    <span className={styles.matches}>{major.matches}</span>
                   </div>
                 ))
             ) : (

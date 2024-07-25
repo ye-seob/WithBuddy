@@ -3,15 +3,15 @@ import { persist, devtools } from "zustand/middleware";
 
 interface UserState {
   name: string;
-  commonNumber: string;
-  buddyName: string;
   studentId: string;
   major: string;
+  snsIds: string[];
+  mbti: string;
   setName: (name: string) => void;
-  setCommonNumber: (commonNumber: string) => void;
-  setBuddyName: (buddyName: string) => void;
   setStudentId: (studentId: string) => void;
-  setMajor: (name: string) => void;
+  setMajor: (major: string) => void;
+  setSnsIds: (snsIds: string[]) => void;
+  setMbti: (mbti: string) => void;
 }
 
 export const useUserStore = create<UserState>()(
@@ -19,15 +19,15 @@ export const useUserStore = create<UserState>()(
     persist(
       (set) => ({
         name: "",
-        commonNumber: "",
-        buddyName: "",
         studentId: "",
         major: "",
-        setName: (name) => set({ name }),
-        setCommonNumber: (commonNumber) => set({ commonNumber }),
-        setBuddyName: (buddyName) => set({ buddyName }),
-        setStudentId: (studentId) => set({ studentId }),
-        setMajor: (major) => set({ major }),
+        snsIds: [],
+        mbti: "",
+        setName: (name: string) => set({ name }),
+        setStudentId: (studentId: string) => set({ studentId }),
+        setMajor: (major: string) => set({ major }),
+        setSnsIds: (snsIds: string[]) => set({ snsIds }),
+        setMbti: (mbti: string) => set({ mbti }),
       }),
       {
         name: "user-storage",

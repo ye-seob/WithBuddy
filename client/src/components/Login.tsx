@@ -9,16 +9,20 @@ import { login } from "../api/user";
 
 const Login: React.FC = () => {
   const [pin, setPin] = useState("");
-  const { studentId, setStudentId, setName, setCommonNumber } = useUserStore();
+  const { studentId, setName, setStudentId, setMajor, setSnsIds, setMbti } =
+    useUserStore();
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
   const handleLogin = async () => {
     try {
       const response = await login({ studentId, pin });
-      const { name, commonNumber } = response;
-      setName(name);
-      setCommonNumber(commonNumber);
+      const { userName, major, snsIds, mbti } = response;
+
+      setName(userName);
+      setMajor(major);
+      setSnsIds(snsIds);
+      setMbti(mbti);
       navigate("/match");
     } catch (error) {
       console.error("Login failed:", error);

@@ -8,7 +8,7 @@ import styles from "../public/css/Signup.module.css";
 const Signup = () => {
   const [name, setName] = useState("");
   const [studentId, setStudentId] = useState("");
-  const [major, setMajor] = useState<string>("");
+  const [major, setMajor] = useState<string>("소프트웨어학과");
   const [pin, setPin] = useState("");
   const [pinConfirm, setPinConfirm] = useState("");
   const [email, setEmail] = useState("");
@@ -61,9 +61,11 @@ const Signup = () => {
     try {
       const response = await checkAuthCode(email, authCode);
       //조건식 수정해야함
+      console.log(response);
       if (response === "200") {
         checkedAuthCode = true;
         alert("인증 성공");
+        console.log(checkedAuthCode);
       }
     } catch (error) {
       console.error(error);
@@ -126,6 +128,7 @@ const Signup = () => {
     }
     if (valid) {
       try {
+        console.log(major);
         const response = await signup({
           name,
           studentId,
@@ -133,12 +136,10 @@ const Signup = () => {
           pin,
           pinConfirm,
           email,
-          snsIds: {
-            kakaoId,
-            instaId,
-          },
+          snsIds: { instaId, kakaoId },
           mbti,
         });
+
         alert(response);
       } catch (error) {
         if (error instanceof Error) {
@@ -176,10 +177,10 @@ const Signup = () => {
         <div className={styles.error_message}>{errors.studentId}</div>
       )}
       <select value={major} onChange={handleMajor}>
-        <option value="software">소프트웨어학과</option>
-        <option value="test">전자컴퓨터공학과</option>
-        <option value="test2">경제학과</option>
-        <option value="test3">글로벌비지니스학과</option>
+        <option value="소프트웨어학과">소프트웨어학과</option>
+        <option value="전자컴퓨터공학과">전자컴퓨터공학과</option>
+        <option value="경제학과">경제학과</option>
+        <option value="글로벌비지니스학과">글로벌비지니스학과</option>
       </select>
       <Input
         type="password"

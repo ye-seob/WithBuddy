@@ -34,7 +34,7 @@ const refreshToken = async (req: Request, res: Response) => {
         .json({ message: "유효하지 않은 리프레시 토큰입니다." });
     }
 
-    const user = await collection.findOne({ email: data.email });
+    const user = await collection.findOne({ studentId: data.studentId });
 
     if (!user) {
       return res.status(404).json({ message: "유저를 찾을 수 없습니다." });
@@ -44,8 +44,7 @@ const refreshToken = async (req: Request, res: Response) => {
       {
         studentId: user.studentId,
         userName: user.name,
-        email: user.email,
-        commonNumber: user.commonNumber,
+        major: user.major,
       },
       process.env.ACCESS_SECRET,
       { expiresIn: "10m", issuer: "About Tech" }

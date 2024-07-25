@@ -8,8 +8,8 @@ interface SignupData {
   pinConfirm: string;
   email: string;
   snsIds: {
-    kakaoId?: string;
     instaId?: string;
+    kakaoId?: string;
   };
   mbti: string;
 }
@@ -20,10 +20,10 @@ interface LoginData {
 }
 
 interface LoginResponse {
-  name: string;
-  commonNumber: string;
-  matchedAt: string;
-  studentId: string;
+  userName: string;
+  major: string;
+  snsIds: string[];
+  mbti: string;
 }
 
 export const signup = async (data: SignupData): Promise<string> => {

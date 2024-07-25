@@ -16,11 +16,11 @@ const Profile: React.FC<ProfileProps> = ({ name, num }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
+  const num2 = num.slice(2, 4);
   return (
     <>
       <div className={styles.profileCard} onClick={handleProfileClick}>
-        <h2 className={styles.profileNum}>{num}</h2>
+        <h2 className={styles.profileNum}>{num2}학번</h2>
         <h3 className={styles.profileName}>{name}</h3>
       </div>
       {isModalOpen && (
