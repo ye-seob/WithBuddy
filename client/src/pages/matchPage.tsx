@@ -13,7 +13,10 @@ interface BuddyData {
   name: string;
   major: string;
   studentId: string;
-  snsIds: string[];
+  snsIds: {
+    instaId: string | undefined;
+    kakaoId: string | undefined;
+  };
   mbti: string;
 }
 const MatchPage: React.FC = () => {
@@ -50,7 +53,12 @@ const MatchPage: React.FC = () => {
             {buddyData ? (
               buddyData.map((buddy, index) => (
                 <div key={index} className={styles.profile}>
-                  <Profile num={buddy.studentId} name={buddy.name} />
+                  <Profile
+                    studentId={buddy.studentId}
+                    name={buddy.name}
+                    snsIds={buddy.snsIds}
+                    mbti={buddy.mbti}
+                  />
                 </div>
               ))
             ) : (
