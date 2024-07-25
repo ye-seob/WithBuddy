@@ -6,6 +6,7 @@ import Sidebar from "../components/Sidebar";
 import styles from "../public/css/EditPage.module.css";
 import { useUserStore } from "../stores/userStore";
 import { editUserInfo } from "../api/edit";
+import AlertMessage from "../components/AlertMessage";
 
 const EditPage: React.FC = () => {
   const { name, setName, studentId } = useUserStore();
@@ -13,18 +14,24 @@ const EditPage: React.FC = () => {
   const [tempName, setTempName] = useState(name);
   const [newPin, setNewPin] = useState("");
   const [pinConfirm, setPinConfirm] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertErrorMessage, setAlertErrorMessage] = useState("");
 
   const handleSave = async () => {
+    if (newPin.length !== 4) {
+      setAlertErrorMessage("pin 번호는 네자리입니다.");
+      return;
+    }
     if (newPin !== pinConfirm) {
-      alert("PIN 번호가 일치하지 않습니다");
+      setAlertErrorMessage("pin 번호가 일치하지 않습니다");
       return;
     }
     try {
       await editUserInfo(studentId, tempName, newPin);
       setName(tempName);
-      alert("정보 수정 완료");
+      setAlertMessage("변경되었습니다.");
     } catch (error) {
-      alert("정보 수정 실패: " + error);
+      setAlertErrorMessage("변경에 실패하였습니다");
     }
   };
 
@@ -69,6 +76,20 @@ const EditPage: React.FC = () => {
           </div>
         </div>
       </div>
+      {alertMessage && (
+        <AlertMessage
+          message={alertMessage}
+          type="success"
+          onClose={() => setAlertMessage("")}
+        />
+      )}
+      {alertErrorMessage && (
+        <AlertMessage
+          message={alertErrorMessage}
+          type="error"
+          onClose={() => setAlertErrorMessage("")}
+        />
+      )}
     </div>
   );
 };

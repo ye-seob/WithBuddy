@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../stores/userStore";
 import styles from "../public/css/Login.module.css";
 import { login } from "../api/user";
+import AlertMessage from "../components/AlertMessage";
 
 const Login: React.FC = () => {
   const [pin, setPin] = useState("");
+  const [alertErrorMessage, setAlertErrorMessage] = useState("");
   const { studentId, setName, setStudentId, setMajor, setSnsIds, setMbti } =
     useUserStore();
   const navigate = useNavigate();
@@ -25,7 +27,9 @@ const Login: React.FC = () => {
       setMbti(mbti);
       navigate("/match");
     } catch (error) {
-      console.error("Login failed:", error);
+      setAlertErrorMessage(
+        "등록되지 않은 학번 또는 PIN 번호가 일치하지 않습니다"
+      );
     }
   };
 
@@ -45,7 +49,13 @@ const Login: React.FC = () => {
       />
       <Button text="로그인" onClick={handleLogin} />
       <p className={styles.login_container}>Pin번호가 기억나지 않으신가요?</p>
-      {/* 나중에 클래스네임 변경 해야함 */}
+      {alertErrorMessage && (
+        <AlertMessage
+          message={alertErrorMessage}
+          type="error"
+          onClose={() => setAlertErrorMessage("")}
+        />
+      )}
     </>
   );
 };

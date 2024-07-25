@@ -1,161 +1,112 @@
-import { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
+import Modal from "react-modal";
 import Input from "./Input";
 import Button from "./Button";
 import { checkAuthCode, sendMail } from "../api/mail";
 import { signup } from "../api/user";
 import styles from "../public/css/Signup.module.css";
+import { mbtiList } from "../util/mbti";
+import { majors } from "../util/major.ts";
+Modal.setAppElement("#root");
 
-const Signup = () => {
+interface Errors {
+  studentId?: string;
+  pin?: string;
+  pinConfirm?: string;
+  email?: string;
+  authCode?: string;
+  sns?: string;
+}
+
+const Signup: React.FC = () => {
   const [name, setName] = useState("");
   const [studentId, setStudentId] = useState("");
-  const [major, setMajor] = useState<string>("소프트웨어학과");
+  const [major, setMajor] = useState("소프트웨어학과");
   const [pin, setPin] = useState("");
   const [pinConfirm, setPinConfirm] = useState("");
   const [email, setEmail] = useState("");
   const [authCode, setAuthCode] = useState("");
-  const mbtiList = [
-    "INTJ",
-    "INTP",
-    "ENTJ",
-    "ENTP",
-    "INFJ",
-    "INFP",
-    "ENFJ",
-    "ENFP",
-    "ISTJ",
-    "ISFJ",
-    "ESTJ",
-    "ESFJ",
-    "ISTP",
-    "ISFP",
-    "ESTP",
-    "ESFP",
-  ];
   const [instaId, setInstaId] = useState("");
   const [kakaoId, setKakaoId] = useState("");
   const [mbti, setMbti] = useState("");
+  const [checkedAuthCode, setCheckedAuthCode] = useState(false);
+  const [authMessage, setAuthMessage] = useState("");
+  const [pinType, setPinType] = useState("password");
+  const [pinConfirmType, setPinConfirmType] = useState("password");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errors, setErrors] = useState<Errors>({});
 
-  const [errors, setErrors] = useState<{
-    studentId: string;
-    pin: string;
-    pinConfirm: string;
-    email: string;
-    authCode: string;
-  }>({
-    studentId: "",
-    pin: "",
-    pinConfirm: "",
-    email: "",
-    authCode: "",
-  });
+  const validate = (): boolean => {
+    const newErrors: Errors = {};
+    if (!/^[0-9]{10}$/.test(studentId))
+      newErrors.studentId = "학번을 올바르게 입력해주세요.";
+    if (!/^[0-9]{4}$/.test(pin))
+      newErrors.pin = "PIN 번호는 4자리 숫자여야 합니다.";
+    if (pin !== pinConfirm)
+      newErrors.pinConfirm = "PIN 번호가 일치하지 않습니다.";
+    if (!/^[\w-.]+@skuniv\.ac\.kr$/.test(email))
+      newErrors.email = "유효한 서경 이메일을 입력해주세요.";
+    if (!authCode) newErrors.authCode = "인증번호를 입력해주세요.";
+    if (!checkedAuthCode) newErrors.authCode = "인증번호 불일치";
+    if (!instaId && !kakaoId)
+      newErrors.sns =
+        "인스타그램 또는 카카오톡 아이디를 하나 이상 입력해주세요.";
 
-  const validateStudentId = (id: string): boolean => /^[0-9]{10}$/.test(id);
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  const validatePin = (pin: string): boolean => /^[0-9]{4}$/.test(pin);
-
-  const validateEmail = (email: string): boolean =>
-    /^[\w-.]+@skuniv\.ac\.kr$/.test(email);
-
-  let checkedAuthCode = false;
   const handleAuthCodeSubmit = async () => {
     try {
       const response = await checkAuthCode(email, authCode);
-      //조건식 수정해야함
-      console.log(response);
       if (response === "200") {
-        checkedAuthCode = true;
-        alert("인증 성공");
-        console.log(checkedAuthCode);
+        setCheckedAuthCode(true);
+        setAuthMessage("인증 성공");
+      } else {
+        setAuthMessage("인증 실패");
       }
     } catch (error) {
       console.error(error);
+      setAuthMessage("인증 중 오류 발생");
     }
   };
 
-  const handleSubmit = async () => {
-    let valid = true;
-    if (!validateStudentId(studentId)) {
-      setErrors((prev) => ({
-        ...prev,
-        studentId: "학번을 올바르게 입력해주세요.",
-      }));
-      valid = false;
-    } else {
-      setErrors((prev) => ({ ...prev, studentId: "" }));
+  const handleSubmit = () => {
+    if (validate()) {
+      setIsModalOpen(true);
     }
+  };
 
-    if (!validatePin(pin)) {
-      setErrors((prev) => ({
-        ...prev,
-        pin: "PIN 번호는 4자리 숫자여야 합니다.",
-      }));
-      valid = false;
-    } else {
-      setErrors((prev) => ({ ...prev, pin: "" }));
-    }
+  const handleConfirmSubmit = async () => {
+    try {
+      const response = await signup({
+        name,
+        studentId,
+        major,
+        pin,
+        pinConfirm,
+        email,
+        snsIds: { instaId, kakaoId },
+        mbti,
+      });
 
-    if (pin !== pinConfirm) {
-      setErrors((prev) => ({
-        ...prev,
-        pinConfirm: "PIN 번호가 일치하지 않습니다.",
-      }));
-      valid = false;
-    } else {
-      setErrors((prev) => ({ ...prev, pinConfirm: "" }));
-    }
-
-    if (!validateEmail(email)) {
-      setErrors((prev) => ({
-        ...prev,
-        email: "유효한 서경 이메일을 입력해주세요.",
-      }));
-      valid = false;
-    } else {
-      setErrors((prev) => ({ ...prev, email: "" }));
-    }
-
-    if (!authCode) {
-      setErrors((prev) => ({ ...prev, authCode: "인증번호를 입력해주세요." }));
-      valid = false;
-    } else {
-      setErrors((prev) => ({ ...prev, authCode: "" }));
-    }
-
-    if (!checkedAuthCode) {
-      //수정해야함
-      alert("인증번호 불일치");
-      return;
-    }
-    if (valid) {
-      try {
-        console.log(major);
-        const response = await signup({
-          name,
-          studentId,
-          major,
-          pin,
-          pinConfirm,
-          email,
-          snsIds: { instaId, kakaoId },
-          mbti,
-        });
-
-        alert(response);
-      } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
-        } else {
-          alert("알 수 없는 오류가 발생했습니다.");
-        }
+      alert(response);
+      setIsModalOpen(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert("알 수 없는 오류가 발생했습니다.");
       }
     }
   };
+
   const handleMbtiClick = (type: string) => {
     setMbti(type);
   };
 
-  const handleMajor = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setMajor(event.target.value);
+  const handleMajorChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setMajor(e.target.value);
   };
 
   return (
@@ -176,25 +127,54 @@ const Signup = () => {
       {errors.studentId && (
         <div className={styles.error_message}>{errors.studentId}</div>
       )}
-      <select value={major} onChange={handleMajor}>
-        <option value="소프트웨어학과">소프트웨어학과</option>
-        <option value="전자컴퓨터공학과">전자컴퓨터공학과</option>
-        <option value="경제학과">경제학과</option>
-        <option value="글로벌비지니스학과">글로벌비지니스학과</option>
-      </select>
-      <Input
-        type="password"
-        placeholder="Pin 번호 Ex) 1234"
-        value={pin}
-        onChange={(e) => setPin(e.target.value)}
-      />
+
+      <div className={styles.select_container}>
+        <select
+          value={major}
+          onChange={handleMajorChange}
+          className={styles.select}
+        >
+          {majors.map((major) => (
+            <option key={major} value={major}>
+              {major}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className={styles.input_with_button}>
+        <Input
+          type={pinType}
+          placeholder="Pin 번호 Ex) 1234"
+          value={pin}
+          onChange={(e) => setPin(e.target.value)}
+        />
+        <button
+          onMouseDown={() => setPinType("text")}
+          onMouseUp={() => setPinType("password")}
+          onMouseLeave={() => setPinType("password")}
+          className={styles.button}
+        >
+          보기
+        </button>
+      </div>
       {errors.pin && <div className={styles.error_message}>{errors.pin}</div>}
-      <Input
-        type="password"
-        placeholder="Pin 번호 확인"
-        value={pinConfirm}
-        onChange={(e) => setPinConfirm(e.target.value)}
-      />
+      <div className={styles.input_with_button}>
+        <Input
+          type={pinConfirmType}
+          placeholder="Pin 번호 확인"
+          value={pinConfirm}
+          onChange={(e) => setPinConfirm(e.target.value)}
+        />
+        <button
+          onMouseDown={() => setPinConfirmType("text")}
+          onMouseUp={() => setPinConfirmType("password")}
+          onMouseLeave={() => setPinConfirmType("password")}
+          className={styles.button}
+        >
+          보기
+        </button>
+      </div>
       {errors.pinConfirm && (
         <div className={styles.error_message}>{errors.pinConfirm}</div>
       )}
@@ -220,10 +200,19 @@ const Signup = () => {
         />
         <Button text="확인" onClick={handleAuthCodeSubmit} />
       </div>
+      {authMessage && (
+        <div
+          className={
+            checkedAuthCode ? styles.success_message : styles.error_message
+          }
+        >
+          {authMessage}
+        </div>
+      )}
       {errors.authCode && (
         <div className={styles.error_message}>{errors.authCode}</div>
       )}
-      <label className={styles.label}>sns 아이디</label>
+      <label className={styles.label}>SNS 아이디</label>
       <Input
         type="text"
         placeholder="인스타 아이디"
@@ -236,6 +225,7 @@ const Signup = () => {
         value={kakaoId}
         onChange={(e) => setKakaoId(e.target.value)}
       />
+      {errors.sns && <div className={styles.error_message}>{errors.sns}</div>}
       <label className={styles.label}>MBTI</label>
       <div className={styles.mbti_container}>
         {mbtiList.map((type) => (
@@ -251,6 +241,29 @@ const Signup = () => {
         ))}
       </div>
       <Button text="가입" onClick={handleSubmit} />
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="회원가입 정보 확인"
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+      >
+        <div className={styles.modalContent}>
+          <h2>입력한 정보가 맞습니까?</h2>
+          <p>이름: {name}</p>
+          <p>학번: {studentId}</p>
+          <p>전공: {major}</p>
+          <p>Email: {email}</p>
+          <p>인스타 아이디: {instaId}</p>
+          <p>카카오톡 아이디: {kakaoId}</p>
+          <p>MBTI: {mbti}</p>
+          <div className={styles.modalButtons}>
+            <Button text="취소" onClick={() => setIsModalOpen(false)} />
+            <Button text="확인" onClick={handleConfirmSubmit} />
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

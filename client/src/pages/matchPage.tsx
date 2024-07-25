@@ -23,6 +23,7 @@ const MatchPage: React.FC = () => {
   const { major, studentId } = useUserStore();
   const [buddyData, setBuddyData] = useState<BuddyData[] | null>(null);
 
+  const lastTwo = studentId.slice(-2);
   // 학과 이름
   useEffect(() => {
     const fetchBuddyData = async () => {
@@ -45,7 +46,9 @@ const MatchPage: React.FC = () => {
         <div className={styles.main_content}>
           {/* 초록 ,학번 부분  */}
           <div className={styles.header_section}>
-            <span className={styles.commonNumber}>소웨 49번</span>
+            <span className={styles.commonNumber}>
+              {major} {lastTwo}번
+            </span>
           </div>
 
           {/* 프로필 섹션 */}

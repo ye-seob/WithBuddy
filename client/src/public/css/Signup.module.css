@@ -1,36 +1,7 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.input {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.button {
-  width: 100%;
-  margin-top: 20px;
-}
-
 .error_message {
   color: red;
   font-size: 0.875em;
   margin-bottom: 10px;
-}
-
-.header {
-  font-size: 1.5em;
-  margin-bottom: 20px;
-  color: #333;
 }
 
 .success_message {
@@ -74,34 +45,6 @@
   color: white;
 }
 
-.hobby_container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.hobby_button {
-  background-color: #f7f6f0;
-  color: #c6d1ae;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 15px;
-  margin: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.hobby_button:hover {
-  background-color: #c6d1ae;
-  color: white;
-}
-
-.hobby_button.selected {
-  background-color: #c6d1ae;
-  color: white;
-}
 .input_with_button {
   display: flex;
   align-items: center;
@@ -111,4 +54,78 @@
 
 .input_with_button button {
   margin-left: 10px;
+}
+.select_container {
+  width: 345px;
+}
+
+.select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  margin-top: 3px;
+  color: #949494;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: #a9bd7d;
+  outline: none;
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  max-width: 80%;
+  background-color: #f7f6f0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalContent h2 {
+  margin-bottom: 20px;
+}
+
+.modalContent p {
+  margin: 10px 0;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+.button {
+  width: 33.3333%;
+  padding: 0.5rem 0;
+  background-color: #c6d1ae;
+  color: white;
+  border-radius: 1rem;
 }
