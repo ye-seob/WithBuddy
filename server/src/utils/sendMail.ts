@@ -2,32 +2,32 @@ import * as nodeMailer from "nodemailer";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import collection from "../models/userModel";
+const crypto = require("crypto");
 
-//환경변수 설정
+// 환경변수 설정
 dotenv.config();
 const myEmail = process.env.EMAIL;
 const password = process.env.PASSWORD;
 
-//메일 인증번호 생성 함수
-function makeCode(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
+const makeCode = () => {
+  return crypto.randomBytes(3).toString("hex");
+};
 
-let code: string; // 인증번호
-let codeTimestamp: number; // 타임스탬프
+// 인증 코드를 저장할 객체
+const authCodes: { [key: string]: string } = {};
 
 const sendMail = async (req: Request, res: Response) => {
   const { email }: { email: string } = req.body;
 
   try {
-    const existingUser = await collection.findOne({ email }); //가입된 학번인지 확인
+    const existingUser = await collection.findOne({ email: email });
 
     if (existingUser) {
-      return res.status(500).json("이미 가입된 이메일입니다.");
+      return res.status(400).json("이미 가입된 이메일입니다.");
     }
 
-    code = makeCode(); // 코드 생성 및 저장
-    codeTimestamp = Date.now(); // 타임스탬프 저장
+    const code = makeCode();
+    authCodes[email] = code;
 
     const transporter = nodeMailer.createTransport({
       service: "gmail",
@@ -61,4 +61,24 @@ const sendMail = async (req: Request, res: Response) => {
   }
 };
 
-export { sendMail, code, codeTimestamp };
+const checkAuthCode = async (req: Request, res: Response) => {
+  const { email, authCode } = req.body;
+
+  try {
+    const storedCode = authCodes[email];
+    if (!storedCode) {
+      return res.status(400).send("인증 코드가 없습니다.");
+    }
+
+    if (authCode !== storedCode) {
+      return res.status(400).send("불일치");
+    }
+    delete authCodes[email];
+
+    res.status(200).send("일치");
+  } catch (error) {
+    res.status(500).send("서버 오류");
+  }
+};
+
+export { sendMail, checkAuthCode };

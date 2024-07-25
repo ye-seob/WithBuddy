@@ -102,3 +102,13 @@
   background-color: #c6d1ae;
   color: white;
 }
+.input_with_button {
+  display: flex;
+  align-items: center;
+  width: 120%;
+  margin-bottom: 10px;
+}
+
+.input_with_button button {
+  margin-left: 10px;
+}

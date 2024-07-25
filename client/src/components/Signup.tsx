@@ -1,18 +1,19 @@
 import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
-import { sendMail } from "../api/mail";
+import { checkAuthCode, sendMail } from "../api/mail";
 import { signup } from "../api/user";
 import styles from "../public/css/Signup.module.css";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [studentId, setStudentId] = useState("");
+  const [major, setMajor] = useState<string>("");
   const [pin, setPin] = useState("");
   const [pinConfirm, setPinConfirm] = useState("");
   const [email, setEmail] = useState("");
   const [authCode, setAuthCode] = useState("");
-  const mbti = [
+  const mbtiList = [
     "INTJ",
     "INTP",
     "ENTJ",
@@ -30,21 +31,10 @@ const Signup = () => {
     "ESTP",
     "ESFP",
   ];
-  const [instagramId, setInstagramId] = useState("");
+  const [instaId, setInstaId] = useState("");
   const [kakaoId, setKakaoId] = useState("");
-  const [selectedMbti, setSelectedMbti] = useState("");
-  const [selectedHobby, setSelectedHobby] = useState("");
+  const [mbti, setMbti] = useState("");
 
-  const hobbies = [
-    { name: "독서", icon: "📚" },
-    { name: "여행", icon: "✈️" },
-    { name: "요리", icon: "🍳" },
-    { name: "운동", icon: "⚽" },
-    { name: "음악", icon: "🎵" },
-    { name: "게임", icon: "🎮" },
-    { name: "영화", icon: "🎬" },
-    { name: "기타 등등", icon: "🔍" },
-  ];
   const [errors, setErrors] = useState<{
     studentId: string;
     pin: string;
@@ -65,6 +55,20 @@ const Signup = () => {
 
   const validateEmail = (email: string): boolean =>
     /^[\w-.]+@skuniv\.ac\.kr$/.test(email);
+
+  let checkedAuthCode = false;
+  const handleAuthCodeSubmit = async () => {
+    try {
+      const response = await checkAuthCode(email, authCode);
+      //조건식 수정해야함
+      if (response === "200") {
+        checkedAuthCode = true;
+        alert("인증 성공");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSubmit = async () => {
     let valid = true;
@@ -115,15 +119,25 @@ const Signup = () => {
       setErrors((prev) => ({ ...prev, authCode: "" }));
     }
 
+    if (!checkedAuthCode) {
+      //수정해야함
+      alert("인증번호 불일치");
+      return;
+    }
     if (valid) {
       try {
         const response = await signup({
           name,
           studentId,
+          major,
           pin,
           pinConfirm,
           email,
-          authCode,
+          snsIds: {
+            kakaoId,
+            instaId,
+          },
+          mbti,
         });
         alert(response);
       } catch (error) {
@@ -136,11 +150,11 @@ const Signup = () => {
     }
   };
   const handleMbtiClick = (type: string) => {
-    setSelectedMbti(type);
+    setMbti(type);
   };
 
-  const handleHobbyClick = (hobby: string) => {
-    setSelectedHobby(hobby);
+  const handleMajor = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setMajor(event.target.value);
   };
 
   return (
@@ -161,6 +175,12 @@ const Signup = () => {
       {errors.studentId && (
         <div className={styles.error_message}>{errors.studentId}</div>
       )}
+      <select value={major} onChange={handleMajor}>
+        <option value="software">소프트웨어학과</option>
+        <option value="test">전자컴퓨터공학과</option>
+        <option value="test2">경제학과</option>
+        <option value="test3">글로벌비지니스학과</option>
+      </select>
       <Input
         type="password"
         placeholder="Pin 번호 Ex) 1234"
@@ -178,22 +198,27 @@ const Signup = () => {
         <div className={styles.error_message}>{errors.pinConfirm}</div>
       )}
       <label className={styles.label}>서경 이메일 인증</label>
-      <Input
-        type="text"
-        placeholder="서경 이메일 Ex) ByBuddy@skuniv.ac.kr"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <div className={styles.input_with_button}>
+        <Input
+          type="text"
+          placeholder="Ex) WithBuddy@skuniv.ac.kr"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Button text="전송" onClick={() => sendMail(email)} />
+      </div>
       {errors.email && (
         <div className={styles.error_message}>{errors.email}</div>
       )}
-      <Button text="전송" onClick={() => sendMail(email)} />
-      <Input
-        type="text"
-        placeholder="인증번호"
-        value={authCode}
-        onChange={(e) => setAuthCode(e.target.value)}
-      />
+      <div className={styles.input_with_button}>
+        <Input
+          type="text"
+          placeholder="인증번호"
+          value={authCode}
+          onChange={(e) => setAuthCode(e.target.value)}
+        />
+        <Button text="확인" onClick={handleAuthCodeSubmit} />
+      </div>
       {errors.authCode && (
         <div className={styles.error_message}>{errors.authCode}</div>
       )}
@@ -201,8 +226,8 @@ const Signup = () => {
       <Input
         type="text"
         placeholder="인스타 아이디"
-        value={instagramId}
-        onChange={(e) => setInstagramId(e.target.value)}
+        value={instaId}
+        onChange={(e) => setInstaId(e.target.value)}
       />
       <Input
         type="text"
@@ -212,29 +237,15 @@ const Signup = () => {
       />
       <label className={styles.label}>MBTI</label>
       <div className={styles.mbti_container}>
-        {mbti.map((type) => (
+        {mbtiList.map((type) => (
           <button
             key={type}
             className={`${styles.mbti_button} ${
-              selectedMbti === type ? styles.selected : ""
+              mbti === type ? styles.selected : ""
             }`}
             onClick={() => handleMbtiClick(type)}
           >
             {type}
-          </button>
-        ))}
-      </div>
-      <label className={styles.label}>취미</label>
-      <div className={styles.hobby_container}>
-        {hobbies.map((hobby) => (
-          <button
-            key={hobby.name}
-            className={`${styles.hobby_button} ${
-              selectedHobby === hobby.name ? styles.selected : ""
-            }`}
-            onClick={() => handleHobbyClick(hobby.name)}
-          >
-            {hobby.icon} {hobby.name}
           </button>
         ))}
       </div>

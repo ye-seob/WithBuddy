@@ -32,7 +32,6 @@ const Profile: React.FC<ProfileProps> = ({ name, num }) => {
             <h2 className="text-2xl font-bold mb-4">{name}</h2>
             <p>이름: {name}</p>
             <p>인스타 아이디: test</p>
-            <p>선후배에게 남긴말 :</p>
           </div>
         </div>
       )}

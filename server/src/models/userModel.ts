@@ -17,14 +17,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  commonNumber: {
+  major: {
     type: String,
     required: true,
   },
-  matchedAt: {
-    type: String,
-    default: "아직 연결되지 않았습니다",
-  },
+
   instagramId: {
     type: String,
     required: false,
@@ -36,10 +33,6 @@ const userSchema = new mongoose.Schema({
 
   mbti: {
     type: String,
-    required: false,
-  },
-  hobbies: {
-    type: [String],
     required: false,
   },
 });

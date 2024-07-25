@@ -3,11 +3,17 @@ import axios from "axios";
 interface SignupData {
   name: string;
   studentId: string;
+  major: string;
   pin: string;
   pinConfirm: string;
   email: string;
-  authCode: string;
+  snsIds: {
+    kakaoId?: string;
+    instaId?: string;
+  };
+  mbti: string;
 }
+
 interface LoginData {
   studentId: string;
   pin: string;
