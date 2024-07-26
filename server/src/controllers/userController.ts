@@ -42,7 +42,8 @@ export const login = async (req: Request, res: Response) => {
       const response = {
         userName: user.name,
         major: user.major,
-        snsIds: user.snsIds,
+        instaId: user.instaId,
+        kakaoId: user.kakaoId,
         mbti: user.mbti,
       };
 
@@ -71,8 +72,17 @@ export const logout = async (req: Request, res: Response) => {
 // 회원가입 처리 함수
 export const signup = async (req: Request, res: Response) => {
   try {
-    const { name, studentId, major, pin, pinConfirm, email, snsIds, mbti } =
-      req.body;
+    const {
+      name,
+      studentId,
+      major,
+      pin,
+      pinConfirm,
+      email,
+      instaId,
+      kakaoId,
+      mbti,
+    } = req.body;
 
     if (pin != pinConfirm) {
       return res.status(500).json("pin번호 불일치");
@@ -88,7 +98,8 @@ export const signup = async (req: Request, res: Response) => {
       major,
       pin: hashingPassword,
       email,
-      snsIds,
+      instaId,
+      kakaoId,
       mbti,
     });
     res.status(200).send("회원가입 성공했습니다.");

@@ -5,12 +5,14 @@ interface UserState {
   name: string;
   studentId: string;
   major: string;
-  snsIds: string[];
+  instaId: string;
+  kakaoId: string;
   mbti: string;
   setName: (name: string) => void;
   setStudentId: (studentId: string) => void;
   setMajor: (major: string) => void;
-  setSnsIds: (snsIds: string[]) => void;
+  setInstaId: (instaId: string | undefined) => void;
+  setKakaoId: (kakaoId: string | undefined) => void;
   setMbti: (mbti: string) => void;
 }
 
@@ -21,12 +23,14 @@ export const useUserStore = create<UserState>()(
         name: "",
         studentId: "",
         major: "",
-        snsIds: [],
+        instaId: "",
+        kakaoId: "",
         mbti: "",
         setName: (name: string) => set({ name }),
         setStudentId: (studentId: string) => set({ studentId }),
         setMajor: (major: string) => set({ major }),
-        setSnsIds: (snsIds: string[]) => set({ snsIds }),
+        setInstaId: (instaId) => set({ instaId: instaId || "" }),
+        setKakaoId: (kakaoId) => set({ kakaoId: kakaoId || "" }),
         setMbti: (mbti: string) => set({ mbti }),
       }),
       {

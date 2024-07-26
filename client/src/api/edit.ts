@@ -3,7 +3,9 @@ import instance from "./API";
 export const editUserInfo = async (
   studentId: string,
   newName: string,
-  newPin?: string
+  newPin?: string,
+  newInstaId?: string,
+  newKakaoId?: string
 ): Promise<void> => {
   try {
     const response = await instance.put(
@@ -12,6 +14,8 @@ export const editUserInfo = async (
         newName,
         newPin: newPin || undefined,
         studentId,
+        newInstaId,
+        newKakaoId,
       },
       {
         withCredentials: true,

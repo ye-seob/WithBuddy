@@ -7,6 +7,8 @@ import { signup } from "../api/user";
 import styles from "../public/css/Signup.module.css";
 import { mbtiList } from "../util/mbti";
 import { majors } from "../util/major.ts";
+import AlertMessage from "../components/AlertMessage";
+import { useNavigate } from "react-router-dom";
 Modal.setAppElement("#root");
 
 interface Errors {
@@ -18,7 +20,10 @@ interface Errors {
   sns?: string;
 }
 
+Modal.setAppElement("#root");
+
 const Signup: React.FC = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [studentId, setStudentId] = useState("");
   const [major, setMajor] = useState("소프트웨어학과");
@@ -35,6 +40,9 @@ const Signup: React.FC = () => {
   const [pinConfirmType, setPinConfirmType] = useState("password");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertErrorMessage, setAlertErrorMessage] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const validate = (): boolean => {
     const newErrors: Errors = {};
@@ -86,12 +94,14 @@ const Signup: React.FC = () => {
         pin,
         pinConfirm,
         email,
-        snsIds: { instaId, kakaoId },
+        instaId,
+        kakaoId,
         mbti,
       });
 
       alert(response);
       setIsModalOpen(false);
+      navigate(0);
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
@@ -107,6 +117,25 @@ const Signup: React.FC = () => {
 
   const handleMajorChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setMajor(e.target.value);
+  };
+
+  const handleSendMail = async () => {
+    if (isDisabled) return;
+    setIsDisabled(true);
+    try {
+      const result = await sendMail(email);
+      if (result === 200) {
+        setAlertMessage("전송되었습니다.");
+      } else {
+        setAlertErrorMessage("메일 전송에 실패하였습니다.");
+      }
+    } catch (error) {
+      setAlertErrorMessage("메일 전송에 실패하였습니다.");
+    } finally {
+      setTimeout(() => {
+        setIsDisabled(false);
+      }, 6000);
+    }
   };
 
   return (
@@ -127,7 +156,6 @@ const Signup: React.FC = () => {
       {errors.studentId && (
         <div className={styles.error_message}>{errors.studentId}</div>
       )}
-
       <div className={styles.select_container}>
         <select
           value={major}
@@ -141,7 +169,6 @@ const Signup: React.FC = () => {
           ))}
         </select>
       </div>
-
       <div className={styles.input_with_button}>
         <Input
           type={pinType}
@@ -186,7 +213,7 @@ const Signup: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Button text="전송" onClick={() => sendMail(email)} />
+        <Button text="전송" onClick={handleSendMail} />
       </div>
       {errors.email && (
         <div className={styles.error_message}>{errors.email}</div>
@@ -241,7 +268,6 @@ const Signup: React.FC = () => {
         ))}
       </div>
       <Button text="가입" onClick={handleSubmit} />
-
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
@@ -264,6 +290,20 @@ const Signup: React.FC = () => {
           </div>
         </div>
       </Modal>
+      {alertMessage && (
+        <AlertMessage
+          message={alertMessage}
+          type="success"
+          onClose={() => setAlertMessage("")}
+        />
+      )}
+      {alertErrorMessage && (
+        <AlertMessage
+          message={alertErrorMessage}
+          type="error"
+          onClose={() => setAlertErrorMessage("")}
+        />
+      )}
     </>
   );
 };

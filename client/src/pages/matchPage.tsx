@@ -13,10 +13,8 @@ interface BuddyData {
   name: string;
   major: string;
   studentId: string;
-  snsIds: {
-    instaId: string | undefined;
-    kakaoId: string | undefined;
-  };
+  instaId: string | undefined;
+  kakaoId: string | undefined;
   mbti: string;
 }
 const MatchPage: React.FC = () => {
@@ -24,7 +22,7 @@ const MatchPage: React.FC = () => {
   const [buddyData, setBuddyData] = useState<BuddyData[] | null>(null);
 
   const lastTwo = studentId.slice(-2);
-  // 학과 이름
+
   useEffect(() => {
     const fetchBuddyData = async () => {
       try {
@@ -37,14 +35,13 @@ const MatchPage: React.FC = () => {
 
     fetchBuddyData();
   }, [studentId, major]);
-
+  console.log(buddyData);
   return (
     <div className={styles.matchpage_container}>
       <Header />
       <div className={styles.content_wrapper}>
         <Sidebar />
         <div className={styles.main_content}>
-          {/* 초록 ,학번 부분  */}
           <div className={styles.header_section}>
             <span className={styles.commonNumber}>
               {major} {lastTwo}번
@@ -59,7 +56,8 @@ const MatchPage: React.FC = () => {
                   <Profile
                     studentId={buddy.studentId}
                     name={buddy.name}
-                    snsIds={buddy.snsIds}
+                    instaId={buddy.instaId}
+                    kakaoId={buddy.kakaoId}
                     mbti={buddy.mbti}
                   />
                 </div>

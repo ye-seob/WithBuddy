@@ -7,10 +7,8 @@ interface SignupData {
   pin: string;
   pinConfirm: string;
   email: string;
-  snsIds: {
-    instaId?: string;
-    kakaoId?: string;
-  };
+  instaId?: string;
+  kakaoId?: string;
   mbti: string;
 }
 
@@ -22,7 +20,8 @@ interface LoginData {
 interface LoginResponse {
   userName: string;
   major: string;
-  snsIds: string[];
+  instaId?: string;
+  kakaoId?: string;
   mbti: string;
 }
 
@@ -38,6 +37,7 @@ export const signup = async (data: SignupData): Promise<string> => {
 export const login = async (data: LoginData): Promise<LoginResponse> => {
   try {
     const response = await axios.post("http://localhost:3000/api/login", data);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("로그인 실패:", error);

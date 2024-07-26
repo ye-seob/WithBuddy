@@ -40,7 +40,7 @@ const Sidebar: React.FC = () => {
         </div>
       </Link>
 
-      <Link to="/">
+      <Link to="/setting">
         <div className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
           <CiSettings />
         </div>

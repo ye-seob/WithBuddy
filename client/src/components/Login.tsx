@@ -11,19 +11,27 @@ import AlertMessage from "../components/AlertMessage";
 const Login: React.FC = () => {
   const [pin, setPin] = useState("");
   const [alertErrorMessage, setAlertErrorMessage] = useState("");
-  const { studentId, setName, setStudentId, setMajor, setSnsIds, setMbti } =
-    useUserStore();
+  const {
+    studentId,
+    setName,
+    setStudentId,
+    setMajor,
+    setInstaId,
+    setKakaoId,
+    setMbti,
+  } = useUserStore();
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
   const handleLogin = async () => {
     try {
       const response = await login({ studentId, pin });
-      const { userName, major, snsIds, mbti } = response;
+      const { userName, major, instaId, kakaoId, mbti } = response;
 
       setName(userName);
       setMajor(major);
-      setSnsIds(snsIds);
+      setInstaId(instaId);
+      setKakaoId(kakaoId);
       setMbti(mbti);
       navigate("/match");
     } catch (error) {

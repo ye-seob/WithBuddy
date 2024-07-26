@@ -16,7 +16,15 @@ const match = async (req: Request, res: Response) => {
         major: major,
         studentId: { $regex: `${lastThree}$` },
       },
-      { name: 1, major: 1, studentId: 1, snsIds: 1, mbti: 1, _id: 0 }
+      {
+        name: 1,
+        major: 1,
+        studentId: 1,
+        instaId: 1,
+        kakaoId: 1,
+        mbti: 1,
+        _id: 0,
+      }
     );
     return res.status(200).json(buddys);
   } catch (error) {

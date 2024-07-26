@@ -21,15 +21,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  snsIds: {
-    instaId: {
-      type: String,
-      required: false,
-    },
-    kakaoId: {
-      type: String,
-      required: false,
-    },
+
+  instaId: {
+    type: String,
+    required: false,
+  },
+  kakaoId: {
+    type: String,
+    required: false,
   },
   mbti: {
     type: String,
