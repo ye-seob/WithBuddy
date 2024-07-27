@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
 import Signup from "../components/Signup";
 import Login from "../components/Login";
 import styles from "../public/css/MainPage.module.css";
-
+import "../public/css/global.css";
 const MainPage: React.FC = () => {
   const [tab, setTab] = useState("login");
 
@@ -12,8 +11,7 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.main_container}>
-      <Header />
+    <>
       <div className={styles.content_container}>
         <div className={styles.tab_container}>
           <div
@@ -38,7 +36,7 @@ const MainPage: React.FC = () => {
           {tab === "register" && <Signup />}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

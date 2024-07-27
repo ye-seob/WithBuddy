@@ -1,12 +1,3 @@
-.settingpage_container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #ecebdf;
-}
-
 .content_wrapper {
   display: flex;
   justify-content: center;

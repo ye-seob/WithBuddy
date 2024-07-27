@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
-import Header from "../components/Header";
 import Input from "../components/Input";
-import Sidebar from "../components/Sidebar";
 import styles from "../public/css/EditPage.module.css";
+import "../public/css/global.css";
 import { useUserStore } from "../stores/userStore";
 import { editUserInfo } from "../api/edit";
 import AlertMessage from "../components/AlertMessage";
@@ -56,68 +55,62 @@ const EditPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.editpage_container}>
-      <Header />
-      <div className={styles.content_wrapper}>
-        <Sidebar />
-        <div className={styles.main_content}>
-          <div className={styles.header_section}>
-            <span className={styles.title}>회원 정보 수정</span>
-          </div>
-          <div className={styles.form}>
-            <label className={styles.label}>인적사항</label>
-            <Input
-              type="text"
-              placeholder="이름"
-              value={tempName}
-              onChange={(e) => setTempName(e.target.value)}
-            />
-            <Input
-              type="text"
-              readOnly={true}
-              placeholder="학과"
-              value={major}
-              onChange={(e) => {
-                e.target;
-              }}
-            />
-            <Input
-              type="text"
-              readOnly={true}
-              placeholder="학번"
-              value={studentId}
-              onChange={(e) => {
-                e.target;
-              }}
-            />
-            <Input
-              type="password"
-              placeholder="새로운 PIN번호"
-              value={newPin}
-              onChange={(e) => setNewPin(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="새로운 PIN번호 확인"
-              value={pinConfirm}
-              onChange={(e) => setPinConfirm(e.target.value)}
-            />
-            <label className={styles.label}>SNS 아이디</label>
-            <Input
-              type="text"
-              placeholder="인스타 아이디"
-              value={tempInstaId}
-              onChange={(e) => setTempInstaId(e.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="카카오톡 아이디"
-              value={tempKakaoId}
-              onChange={(e) => setTempKakaoId(e.target.value)}
-            />
-            <Button text="저장" onClick={handleSave} />
-          </div>
-        </div>
+    <>
+      <div className={styles.header_section}>
+        <span className={styles.title}>회원 정보 수정</span>
+      </div>
+      <div className={styles.form}>
+        <label className={styles.label}>인적사항</label>
+        <Input
+          type="text"
+          placeholder="이름"
+          value={tempName}
+          onChange={(e) => setTempName(e.target.value)}
+        />
+        <Input
+          type="text"
+          readOnly={true}
+          placeholder="학과"
+          value={major}
+          onChange={(e) => {
+            e.target;
+          }}
+        />
+        <Input
+          type="text"
+          readOnly={true}
+          placeholder="학번"
+          value={studentId}
+          onChange={(e) => {
+            e.target;
+          }}
+        />
+        <Input
+          type="password"
+          placeholder="새로운 PIN번호"
+          value={newPin}
+          onChange={(e) => setNewPin(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="새로운 PIN번호 확인"
+          value={pinConfirm}
+          onChange={(e) => setPinConfirm(e.target.value)}
+        />
+        <label className={styles.label}>SNS 아이디</label>
+        <Input
+          type="text"
+          placeholder="인스타 아이디"
+          value={tempInstaId}
+          onChange={(e) => setTempInstaId(e.target.value)}
+        />
+        <Input
+          type="text"
+          placeholder="카카오톡 아이디"
+          value={tempKakaoId}
+          onChange={(e) => setTempKakaoId(e.target.value)}
+        />
+        <Button text="저장" onClick={handleSave} />
       </div>
       {alertMessage && (
         <AlertMessage
@@ -133,7 +126,7 @@ const EditPage: React.FC = () => {
           onClose={() => setAlertErrorMessage("")}
         />
       )}
-    </div>
+    </>
   );
 };
 

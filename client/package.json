@@ -17,12 +17,14 @@
     "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.24.1",
+    "react-transition-group": "^4.4.5",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-modal": "^3.16.3",
+    "@types/react-transition-group": "^4.4.10",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react-swc": "^3.5.0",

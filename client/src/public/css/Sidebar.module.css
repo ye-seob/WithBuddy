@@ -1,0 +1,40 @@
+.sidebar {
+  width: 4rem;
+  margin-left: -155px;
+  margin-right: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1rem;
+  background-color: #f7f6f0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.sidebar:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  margin-top: 2.5rem;
+  font-size: 1.875rem;
+  transition: transform 0.2s ease-in-out, font-weight 0.2s ease-in-out;
+}
+
+.icon:hover {
+  transform: scale(1.25);
+  font-weight: bold;
+}
+
+.logoutIcon {
+  margin-top: 3.5rem;
+  font-size: 1.875rem;
+  transition: transform 0.2s ease-in-out, font-weight 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.logoutIcon:hover {
+  transform: scale(1.25);
+  font-weight: bold;
+}

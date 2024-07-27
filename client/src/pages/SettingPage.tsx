@@ -1,8 +1,7 @@
 import { useState } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import { FaEnvelope, FaGithub, FaTrashAlt } from "react-icons/fa";
 import styles from "../public/css/SettingPage.module.css";
+import "../public/css/global.css";
 import axios from "axios";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
@@ -41,39 +40,33 @@ const SettingPage = () => {
   };
 
   return (
-    <div className={styles.settingpage_container}>
-      <Header />
-      <div className={styles.content_wrapper}>
-        <Sidebar />
-        <div className={styles.main_content}>
-          <div className={styles.header_section}>
-            <span className={styles.text}>설정</span>
+    <>
+      <div className={styles.header_section}>
+        <span className={styles.text}>설정</span>
+      </div>
+      <div className={styles.info_section}>
+        <div className={styles.info_item}>
+          <div className={styles.icon}>
+            <FaEnvelope />
           </div>
-          <div className={styles.info_section}>
-            <div className={styles.info_item}>
-              <div className={styles.icon}>
-                <FaEnvelope />
-              </div>
-              <span className={styles.infoText}> withBuddy@gmail.com</span>
-            </div>
-            <div className={styles.info_item}>
-              <div className={styles.icon}>
-                <FaGithub />
-              </div>
+          <span className={styles.infoText}> withBuddy@gmail.com</span>
+        </div>
+        <div className={styles.info_item}>
+          <div className={styles.icon}>
+            <FaGithub />
+          </div>
 
-              <span className={styles.infoText}>
-                <a href="https://github.com/ye-seob/WithBuddy">
-                  https://github.com/ye-seob/WithBuddy
-                </a>
-              </span>
-            </div>
-            <div className={styles.info_item}>
-              <div className={styles.icon}>
-                <FaTrashAlt />
-              </div>
-              <Button text="회원 삭제" onClick={openModal}></Button>
-            </div>
+          <span className={styles.infoText}>
+            <a href="https://github.com/ye-seob/WithBuddy">
+              https://github.com/ye-seob/WithBuddy
+            </a>
+          </span>
+        </div>
+        <div className={styles.info_item}>
+          <div className={styles.icon}>
+            <FaTrashAlt />
           </div>
+          <Button text="회원 삭제" onClick={openModal}></Button>
         </div>
       </div>
       <Modal
@@ -90,7 +83,7 @@ const SettingPage = () => {
           <Button text="삭제" onClick={handleDeleteUser}></Button>
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
 

@@ -2,7 +2,10 @@ import React from "react";
 import { CiHome, CiEdit, CiBoxList, CiLogin, CiSettings } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import styles from "../public/css/Sidebar.module.css";
+
 axios.defaults.withCredentials = true;
+
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
@@ -21,35 +24,32 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-16 mr-16 flex flex-col items-center rounded-xl bg-[#F7F6F0] shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+    <div className={styles.sidebar}>
       <Link to="/match">
-        <div className="mt-10 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+        <div className={styles.icon}>
           <CiHome />
         </div>
       </Link>
 
       <Link to="/ranking">
-        <div className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+        <div className={styles.icon}>
           <CiBoxList />
         </div>
       </Link>
 
       <Link to="/edit">
-        <div className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+        <div className={styles.icon}>
           <CiEdit />
         </div>
       </Link>
 
       <Link to="/setting">
-        <div className="mt-12 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out">
+        <div className={styles.icon}>
           <CiSettings />
         </div>
       </Link>
 
-      <div
-        className="mt-14 text-3xl hover:scale-125 hover:font-bold transition-transform duration-200 ease-in-out cursor-pointer"
-        onClick={handleLogout}
-      >
+      <div className={styles.logoutIcon} onClick={handleLogout}>
         <CiLogin />
       </div>
     </div>
