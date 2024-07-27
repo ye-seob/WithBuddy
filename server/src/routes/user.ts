@@ -10,6 +10,7 @@ const router = express();
 router.post("/api/login", userController.login);
 router.post("/api/signup", userController.signup);
 router.post("/api/logout", userController.logout);
+router.delete("/api/deleteUser", userController.deleteUser);
 
 router.put("/api/edit", checkAuth, editController.editUserInfo);
 router.get("/api/ranking", checkAuth, rankingController.loadRanking);

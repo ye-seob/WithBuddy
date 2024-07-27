@@ -69,7 +69,6 @@ export const logout = async (req: Request, res: Response) => {
   }
 };
 
-// 회원가입 처리 함수
 export const signup = async (req: Request, res: Response) => {
   try {
     const {
@@ -110,5 +109,23 @@ export const signup = async (req: Request, res: Response) => {
     );
   } catch (error) {
     res.status(500).json({ error: "서버 문제 발생" });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const studentId = req.body.studentId;
+
+    const user = await collection.findOne({ studentId });
+
+    const result = await collection.deleteOne(user);
+
+    if (result.deletedCount === 1) {
+      res.status(200).send("삭제되었습니다.");
+    } else {
+      res.status(404).send("삭제에 실패했습니다");
+    }
+  } catch (error) {
+    res.status(500).send("서버 오류");
   }
 };

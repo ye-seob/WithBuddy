@@ -7,10 +7,13 @@ import axios from "axios";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import { useUserStore } from "../stores/userStore";
 
 Modal.setAppElement("#root");
 
 const SettingPage = () => {
+  const { studentId } = useUserStore();
+
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,9 +26,10 @@ const SettingPage = () => {
   };
 
   const handleDeleteUser = async () => {
-    const userId = "사용자 ID"; // 실제 사용자 ID로 대체해야 함
     try {
-      await axios.delete(`http://localhost:5000/users/${userId}`);
+      await axios.delete("http://localhost:3000/api/deleteUser", {
+        data: { studentId },
+      });
       alert("회원이 삭제되었습니다.");
 
       closeModal();
