@@ -41,7 +41,6 @@ const MatchPage: React.FC = () => {
         </span>
       </div>
 
-      {/* 프로필 섹션 */}
       <div className={styles.profiles_section}>
         {buddyData ? (
           buddyData.map((buddy, index) => (
