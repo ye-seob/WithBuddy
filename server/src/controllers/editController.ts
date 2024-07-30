@@ -6,7 +6,6 @@ const editUserInfo = async (req: Request, res: Response) => {
   try {
     const { newName, newPin, studentId, newInstaId, newKakaoId } = req.body;
     const user = await collection.findOne({ studentId });
-    console.log(newInstaId, newKakaoId);
     if (!user) {
       return res.status(404).send("로그인 후 다시 이용해주세요");
     }

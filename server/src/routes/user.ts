@@ -17,6 +17,7 @@ router.get("/api/ranking", checkAuth, rankingController.loadRanking);
 
 router.post("/api/send-mail", mail.sendMail);
 router.post("/api/checkAuthCode", mail.checkAuthCode);
+router.post("/api/send-findPin-mail", mail.sendFindMail);
 router.post("/api/refreshToken", refreshToken);
 
 export default router;

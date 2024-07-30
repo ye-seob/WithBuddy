@@ -1,0 +1,39 @@
+.header_section {
+  width: 100%;
+  min-height: 50px;
+  background-color: #c6d1ae;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.text {
+  color: white;
+  font-weight: bold;
+}
+.form {
+  width: 100%;
+  padding: 30px 0px 50px 0px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.button_Warpper {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  display: flex;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.backButton {
+  position: absolute;
+  top: 16px;
+  left: 30px;
+}

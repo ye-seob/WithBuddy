@@ -3,6 +3,7 @@ import collection from "../models/userModel";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 import Major from "../models/majorModel";
+
 export const login = async (req: Request, res: Response) => {
   try {
     const { studentId, pin }: { studentId: string; pin: string } = req.body;
@@ -10,7 +11,6 @@ export const login = async (req: Request, res: Response) => {
 
     if (!user) return res.status(404).send("등록되지 않은 학번입니다");
     const passwordMatching = await bcrypt.compare(pin, user.pin);
-    console.log(user);
     if (passwordMatching) {
       const accessToken: string = jwt.sign(
         {

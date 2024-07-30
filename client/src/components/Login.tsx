@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../stores/userStore";
 import styles from "../public/css/Login.module.css";
 import { login } from "../api/user";
 import AlertMessage from "../components/AlertMessage";
 
-const Login: React.FC = () => {
+const Login = () => {
   const [pin, setPin] = useState("");
   const [alertErrorMessage, setAlertErrorMessage] = useState("");
   const {
@@ -21,7 +20,6 @@ const Login: React.FC = () => {
     setMbti,
   } = useUserStore();
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
 
   const handleLogin = async () => {
     try {
@@ -41,6 +39,12 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       <Input
@@ -48,15 +52,19 @@ const Login: React.FC = () => {
         placeholder="학번 Ex) 2023216049"
         value={studentId}
         onChange={(e) => setStudentId(e.target.value)}
+        onKeyPress={handleKeyPress}
       />
       <Input
         type="password"
         placeholder="Pin 번호 Ex) 1234"
         value={pin}
         onChange={(e) => setPin(e.target.value)}
+        onKeyPress={handleKeyPress}
       />
       <Button text="로그인" onClick={handleLogin} />
-      <p className={styles.login_container}>Pin번호가 기억나지 않으신가요?</p>
+      <Link to="/findPin">
+        <p className={styles.login_container}>Pin번호가 기억나지 않으신가요?</p>
+      </Link>
       {alertErrorMessage && (
         <AlertMessage
           message={alertErrorMessage}

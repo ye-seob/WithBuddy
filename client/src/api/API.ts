@@ -36,6 +36,8 @@ instance.interceptors.response.use(
         return instance(originalRequest);
       } catch (error) {
         console.error("토큰 재발급 실패", error);
+        alert("세션이 만료되었습니다 로그인 페이지로 이동합니다.");
+        window.location.href = "/";
         return Promise.reject(error);
       }
     }

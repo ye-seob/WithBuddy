@@ -5,6 +5,7 @@ import EditPage from "./pages/EditPage";
 import RankingPage from "./pages/RankingPage";
 import SettingPage from "./pages/SettingPage";
 import Layout from "./components/Layout";
+import FindPinPage from "./pages/FindPinPage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/edit" element={<EditPage />} />
           <Route path="/ranking" element={<RankingPage />} />
           <Route path="/setting" element={<SettingPage />} />
+          <Route path="/findPin" element={<FindPinPage />} />
         </Routes>
       </Layout>
     </Router>

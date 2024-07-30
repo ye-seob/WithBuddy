@@ -37,7 +37,6 @@ export const signup = async (data: SignupData): Promise<string> => {
 export const login = async (data: LoginData): Promise<LoginResponse> => {
   try {
     const response = await axios.post("http://localhost:3000/api/login", data);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("로그인 실패:", error);

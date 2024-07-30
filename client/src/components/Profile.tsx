@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import styles from "../public/css/Profile.module.css";
-import { FaInstagram, FaRegComment, FaUser, FaClipboard } from "react-icons/fa";
-
+import { FaInstagram, FaUser, FaClipboard } from "react-icons/fa";
+import { RiKakaoTalkFill } from "react-icons/ri";
 interface ProfileProps {
   studentId: string;
   name: string;
@@ -11,7 +11,7 @@ interface ProfileProps {
   mbti: string;
 }
 
-Modal.setAppElement("#root"); // 애플리케이션의 루트 엘리먼트를 설정합니다.
+Modal.setAppElement("#root");
 
 const Profile: React.FC<ProfileProps> = ({
   name,
@@ -69,7 +69,10 @@ const Profile: React.FC<ProfileProps> = ({
         <div className={styles.modalBody}>
           <div className={styles.modalItem}>
             <FaInstagram size={20} color="#E1306C" />
-            인스타 아이디: {instaId || "없음"}
+            <span className={styles.snsIdText}>
+              인스타 아이디 : {instaId || "없음"}
+            </span>
+
             <div
               className={styles.copyIcon}
               onClick={() => handleCopyClick(instaId)}
@@ -78,8 +81,11 @@ const Profile: React.FC<ProfileProps> = ({
             </div>
           </div>
           <div className={styles.modalItem}>
-            <FaRegComment size={20} color="#FFD700" />
-            카톡 아이디: {kakaoId || "없음"}
+            <RiKakaoTalkFill size={20} color="#FFD700" />
+            <span className={styles.snsIdText}>
+              카톡 아이디 : {kakaoId || "없음"}
+            </span>
+
             <div
               className={styles.copyIcon}
               onClick={() => handleCopyClick(kakaoId)}
@@ -89,7 +95,7 @@ const Profile: React.FC<ProfileProps> = ({
           </div>
           <div className={styles.modalItem}>
             <FaUser size={20} color="#6f7d47" />
-            MBTI: {mbti}
+            <span className={styles.snsIdText}>MBTI : {mbti}</span>
           </div>
         </div>
       </Modal>

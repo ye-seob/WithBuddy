@@ -14,7 +14,6 @@ const Sidebar: React.FC = () => {
       const response = await axios.post("http://localhost:3000/api/logout");
 
       if (response.status === 200) {
-        console.log("로그아웃 성공");
         localStorage.clear();
         navigate("/");
       }

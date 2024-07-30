@@ -2,9 +2,7 @@ import instance from "./API";
 
 export const laodRanking = async () => {
   try {
-    const response = await instance.get("http://localhost:3000/api/ranking", {
-      withCredentials: true,
-    });
+    const response = await instance.get("http://localhost:3000/api/ranking");
     return response.data;
   } catch (error) {
     console.error("불러오기 실패:", error);

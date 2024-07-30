@@ -12,12 +12,14 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const isRoot = location.pathname === "/";
+  const findPage = location.pathname === "/findPin";
 
   return (
     <Container>
       <Header />
+
       <div className="content_wrapper">
-        {!isRoot && <Sidebar />}
+        {!isRoot && !findPage && <Sidebar />}
         <div className="main_content">{children}</div>
       </div>
     </Container>
