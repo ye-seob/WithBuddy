@@ -1,5 +1,4 @@
 import axios from "axios";
-import { refreshToken } from "./token";
 
 const instance = axios.create({
   baseURL: "http://localhost:3000/api",
@@ -50,6 +49,14 @@ const getCookie = (name: string): string | undefined => {
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop()?.split(";").shift();
   return undefined;
+};
+const refreshToken = async () => {
+  try {
+    await axios.post("http://localhost:3000/api/auth/refreshToken");
+  } catch (error) {
+    console.error("토큰 재발급 실패", error);
+    throw error;
+  }
 };
 
 export default instance;

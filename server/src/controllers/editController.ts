@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import collection from "../models/userModel";
 const bcrypt = require("bcrypt");
 
-const editUserInfo = async (req: Request, res: Response) => {
+export const editUserInfo = async (req: Request, res: Response) => {
   try {
     const { newName, newPin, studentId, newInstaId, newKakaoId } = req.body;
     const user = await collection.findOne({ studentId });
@@ -15,7 +15,6 @@ const editUserInfo = async (req: Request, res: Response) => {
       user.pin = hashedNewPin;
     }
 
-    // 새로운 이름이 입력되었을 때만 이름을 업데이트
     if (newName) {
       user.name = newName;
     }
@@ -32,8 +31,4 @@ const editUserInfo = async (req: Request, res: Response) => {
     console.error("사용자 정보 수정 실패:", error);
     return res.status(500).json({ error: "서버 문제 발생" });
   }
-};
-
-module.exports = {
-  editUserInfo,
 };

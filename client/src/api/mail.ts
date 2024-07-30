@@ -15,7 +15,7 @@ export const sendMail = async (email: string) => {
 export const sendFindMail = async (email: string, studentId: string) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/api/send-findPin-mail",
+      "http://localhost:3000/api/mail/send-findPin-mail",
       {
         email,
         studentId,
@@ -33,7 +33,7 @@ export const checkAuthCode = async (
 ): Promise<string> => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/api/checkAuthCode",
+      "http://localhost:3000/api/mail/checkAuthCode",
       {
         email,
         authCode,

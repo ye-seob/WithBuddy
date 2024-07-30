@@ -1,11 +1,10 @@
-import express, { Application, Request, Response } from "express";
-import user from "./routes/user";
-import match from "./routes/match";
+import express, { Application } from "express";
+import router from "./routes/index";
+
 import connectDB from "./db";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
-//환경변수 설정
 dotenv.config();
 
 const cors = require("cors");
@@ -27,8 +26,7 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(user);
-app.use(match);
+app.use(router);
 
 app.listen(process.env.PORT, function () {
   console.log(` ${process.env.PORT}포트 실행 중`);

@@ -8,7 +8,7 @@ export const editUserInfo = async (
   newKakaoId?: string
 ): Promise<void> => {
   try {
-    const response = await instance.put("http://localhost:3000/api/edit", {
+    const response = await instance.put("http://localhost:3000/api/user/edit", {
       newName,
       newPin: newPin || undefined,
       studentId,

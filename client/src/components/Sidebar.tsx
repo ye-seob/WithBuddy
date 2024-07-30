@@ -1,19 +1,16 @@
 import React from "react";
 import { CiHome, CiEdit, CiBoxList, CiLogin, CiSettings } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { logout } from "../api/user";
 import styles from "../public/css/Sidebar.module.css";
-
-axios.defaults.withCredentials = true;
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/logout");
-
-      if (response.status === 200) {
+      const response = await logout();
+      if (response === 200) {
         localStorage.clear();
         navigate("/");
       }

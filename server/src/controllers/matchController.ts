@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import collection from "../models/userModel";
 
-const match = async (req: Request, res: Response) => {
+export const match = async (req: Request, res: Response) => {
   const major = req.query.major as string | undefined;
   const studentId = req.query.studentId as string | undefined;
 
@@ -30,8 +30,4 @@ const match = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).send("서버 오류 발생");
   }
-};
-
-module.exports = {
-  match,
 };

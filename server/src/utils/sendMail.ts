@@ -5,7 +5,6 @@ import collection from "../models/userModel";
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
-// 환경변수 설정
 dotenv.config();
 const myEmail = process.env.EMAIL;
 const password = process.env.PASSWORD;
@@ -18,10 +17,9 @@ const makePin = () => {
   return Math.floor(1000 + Math.random() * 9000).toString();
 };
 
-// 인증 코드를 저장할 객체
 const authCodes: { [key: string]: string } = {};
 
-const sendMail = async (req: Request, res: Response) => {
+export const sendMail = async (req: Request, res: Response) => {
   const { email }: { email: string } = req.body;
 
   try {
@@ -119,7 +117,7 @@ export const sendFindMail = async (req: Request, res: Response) => {
   }
 };
 
-const checkAuthCode = async (req: Request, res: Response) => {
+export const checkAuthCode = async (req: Request, res: Response) => {
   const { email, authCode } = req.body;
 
   try {
@@ -138,5 +136,3 @@ const checkAuthCode = async (req: Request, res: Response) => {
     res.status(500).send("서버 오류");
   }
 };
-
-export { sendMail, checkAuthCode };
