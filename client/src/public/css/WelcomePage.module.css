@@ -1,0 +1,12 @@
+.centeredText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 2rem;
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: #ecebdf;
+}

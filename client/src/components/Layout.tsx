@@ -11,7 +11,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
-  const isRoot = location.pathname === "/";
+  const isRoot = location.pathname === "/login";
   const findPage = location.pathname === "/findPin";
 
   return (
